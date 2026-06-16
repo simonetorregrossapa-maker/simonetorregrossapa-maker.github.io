@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <rect width="1200" height="630" fill="#FBFAF7"/>
+  <rect x="0" y="0" width="1200" height="8" fill="#9E3A26"/>
+
+  <!-- brand mark -->
+  <rect x="80" y="78" width="54" height="54" rx="13" fill="#17171A"/>
+  <text x="107" y="106" text-anchor="middle" dominant-baseline="central"
+        font-family="'JetBrains Mono', monospace" font-size="22" font-weight="500" fill="#FBFAF7">ST</text>
+  <text x="152" y="106" dominant-baseline="central"
+        font-family="Inter, sans-serif" font-size="24" font-weight="600" fill="#17171A">Simone Torregrossa</text>
+
+  <!-- kicker -->
+  <text x="80" y="248" font-family="'JetBrains Mono', monospace" font-size="22"
+        letter-spacing="2" fill="#9E3A26">SVILUPPATORE SOFTWARE · DA REMOTO IN TUTTA ITALIA</text>
+
+  <!-- headline -->
+  <text x="76" y="338" font-family="'Playfair Display', Georgia, serif" font-size="76"
+        font-weight="600" fill="#17171A">Applicazioni web e automazioni</text>
+  <text x="76" y="424" font-family="'Playfair Display', Georgia, serif" font-size="76"
+        font-weight="600" fill="#17171A">su misura per piccole imprese.</text>
+
+  <!-- subline -->
+  <text x="80" y="498" font-family="Inter, sans-serif" font-size="27" fill="#585862">Sviluppatore web e software freelance · prenotazioni, backend, integrazioni email.</text>
+
+  <!-- footer chips -->
+  <text x="80" y="566" font-family="'JetBrains Mono', monospace" font-size="20" fill="#17171A">HTML/CSS/JS · Supabase · Cloudflare · Web3Forms</text>
+</svg>
