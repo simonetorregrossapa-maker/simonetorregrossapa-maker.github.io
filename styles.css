@@ -449,6 +449,42 @@ a { color: inherit; }
 }
 .fw-active .fw-tag { color: #fff; background: rgba(255,255,255,0.18); }
 
+.portfolio-card {
+  background: var(--white);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 1.7rem;
+  box-shadow: 0 24px 60px -34px rgba(23,23,26,0.35);
+}
+.pf-eyebrow {
+  font-family: var(--mono);
+  font-size: 0.74rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--accent);
+  margin-bottom: 1rem;
+}
+.pf-list { list-style: none; padding: 0; margin: 0 0 1.4rem; }
+.pf-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.95rem 0;
+  border-top: 1px solid var(--line);
+}
+.pf-item:first-child { border-top: none; padding-top: 0; }
+.pf-name { font-size: 1.02rem; font-weight: 600; color: var(--ink); }
+.pf-type { font-size: 0.85rem; color: var(--muted); margin-top: 0.18rem; }
+.pf-link {
+  font-family: var(--mono);
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--accent);
+  white-space: nowrap;
+}
+.pf-link:hover { text-decoration: underline; }
+
 .feature-list {
   list-style: none;
   padding: 0;
