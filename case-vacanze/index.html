@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Prenotazioni dirette per case vacanze e B&amp;B — Simone Torregrossa</title>
+<meta name="description" content="Booking ti costa due volte, in soldi e in tempo. Costruisco il sistema che fa prenotare gli ospiti sul tuo sito e manda da solo conferme, promemoria e richieste di recensione. Con i limiti dichiarati per primi." />
+<link rel="canonical" href="https://simonetorregrossapa-maker.github.io/case-vacanze/" />
+<meta property="og:type" content="website" />
+<meta property="og:title" content="Prenotazioni dirette per case vacanze e B&amp;B" />
+<meta property="og:description" content="Booking ti costa due volte, in soldi e in tempo. Il sistema che apre il canale diretto e lavora da solo." />
+<meta property="og:url" content="https://simonetorregrossapa-maker.github.io/case-vacanze/" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500&display=swap" />
+<style>
+:root{
+  --bg:#FBFCFD; --bg-alt:#F1F4F7; --ink:#14202E; --ink-soft:#283544;
+  --muted:#586675; --line:#E1E6EC; --line-soft:#EDF0F4;
+  --accent:#1F4E79; --accent-ink:#173A5C; --white:#FFFFFF;
+  --serif:"Playfair Display",Georgia,"Times New Roman",serif;
+  --sans:"Inter",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+  --container:64rem; --radius:14px;
+}
+*,*::before,*::after{box-sizing:border-box}
+*{margin:0}
+html{-webkit-text-size-adjust:100%}
+body{
+  font-family:var(--sans);font-size:17px;line-height:1.65;
+  color:var(--ink-soft);background:var(--bg);-webkit-font-smoothing:antialiased;
+}
+img,svg{display:block;max-width:100%}
+a{color:var(--accent)}
+a:focus-visible,.btn:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:4px}
+.container{width:100%;max-width:var(--container);margin-inline:auto;padding-inline:clamp(1.25rem,5vw,2.5rem)}
+
+/* testata */
+.site-header{border-bottom:1px solid var(--line);background:var(--white)}
+.header-inner{display:flex;align-items:center;justify-content:space-between;gap:1rem;padding-block:1rem}
+.brand{display:flex;align-items:center;gap:.6rem;text-decoration:none;color:var(--ink)}
+.brand-mark{
+  font-family:var(--mono);font-size:.78rem;letter-spacing:.06em;
+  background:var(--accent);color:var(--white);padding:.32rem .45rem;border-radius:6px;
+}
+.brand-name{font-weight:600;font-size:.95rem}
+.header-inner .torna{font-size:.88rem;text-decoration:none}
+.header-inner .torna:hover{text-decoration:underline}
+
+/* impianto */
+section{padding-block:clamp(3rem,7vw,4.75rem);border-bottom:1px solid var(--line-soft)}
+.eyebrow{
+  font-family:var(--mono);font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--accent);margin-bottom:1rem;
+}
+h1{
+  font-family:var(--serif);font-weight:700;color:var(--ink);
+  font-size:clamp(2.3rem,6.5vw,3.6rem);line-height:1.08;letter-spacing:-.01em;
+  text-wrap:balance;
+}
+h2{
+  font-family:var(--serif);font-weight:600;color:var(--ink);
+  font-size:clamp(1.6rem,4vw,2.15rem);line-height:1.18;margin-bottom:.9rem;text-wrap:balance;
+}
+h3{font-family:var(--sans);font-weight:600;color:var(--ink);font-size:1.02rem;margin-bottom:.35rem}
+p{max-width:38rem;margin-bottom:1rem}
+p:last-child{margin-bottom:0}
+.guida{color:var(--muted)}
+
+/* apertura */
+.hero{background:var(--white);padding-block:clamp(3.5rem,9vw,6rem)}
+.hero p.occhiello{font-size:1.12rem;max-width:34rem;margin-top:1.25rem}
+.azioni{display:flex;flex-wrap:wrap;gap:.75rem;margin-top:2rem}
+.btn{
+  display:inline-block;text-decoration:none;font-weight:600;font-size:.95rem;
+  padding:.8rem 1.35rem;border-radius:10px;border:1px solid var(--accent);
+  background:var(--accent);color:var(--white);
+}
+.btn:hover{background:var(--accent-ink);border-color:var(--accent-ink)}
+.btn.chiaro{background:var(--white);color:var(--accent)}
+.btn.chiaro:hover{background:var(--bg-alt)}
+.sotto-azioni{font-size:.85rem;color:var(--muted);margin-top:.9rem;font-family:var(--mono)}
+
+/* due costi */
+.costi{display:grid;gap:1.25rem;margin-top:1.75rem}
+@media(min-width:760px){.costi{grid-template-columns:1fr 1fr}}
+.costo{background:var(--white);border:1px solid var(--line);border-radius:var(--radius);padding:1.5rem}
+.costo .num{font-family:var(--mono);font-size:.72rem;color:var(--accent);letter-spacing:.1em;margin-bottom:.6rem}
+.costo h3{font-family:var(--serif);font-size:1.3rem;font-weight:600;margin-bottom:.55rem}
+.costo p{font-size:.97rem}
+.scena{
+  margin-top:1rem;padding:.9rem 1rem;background:var(--bg-alt);
+  border-radius:10px;font-size:.92rem;color:var(--ink-soft);
+}
+.scena b{color:var(--ink)}
+
+/* elenchi */
+.blocchi{display:grid;gap:1.5rem;margin-top:1.5rem}
+@media(min-width:760px){.blocchi{grid-template-columns:repeat(3,1fr);gap:2rem}}
+.blocco h3{
+  font-family:var(--mono);font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--accent);margin-bottom:.7rem;
+}
+.blocco ul{list-style:none;padding:0;display:grid;gap:.55rem}
+.blocco li{font-size:.95rem;padding-left:1.1rem;position:relative}
+.blocco li::before{content:"";position:absolute;left:0;top:.62em;width:.42rem;height:1px;background:var(--accent)}
+
+/* limiti */
+.limiti{background:var(--bg-alt)}
+.limiti ol{list-style:none;padding:0;counter-reset:l;display:grid;gap:1rem;margin-top:1.5rem;max-width:44rem}
+.limiti li{counter-increment:l;display:grid;grid-template-columns:1.9rem 1fr;gap:.85rem;font-size:.97rem}
+.limiti li::before{
+  content:counter(l);font-family:var(--mono);font-size:.8rem;color:var(--accent);
+  border:1px solid var(--line);background:var(--white);border-radius:6px;
+  width:1.9rem;height:1.9rem;display:grid;place-items:center;
+}
+.limiti li b{color:var(--ink)}
+
+/* prova */
+.prova{background:var(--white);border:1px solid var(--line);border-radius:var(--radius);padding:1.6rem;margin-top:1.5rem}
+.prova .riga{font-family:var(--mono);font-size:.75rem;color:var(--muted);letter-spacing:.06em;margin-bottom:.7rem}
+.prova h3{font-family:var(--serif);font-size:1.35rem;margin-bottom:.5rem}
+
+/* prezzo */
+.prezzi{display:grid;gap:1.25rem;margin-top:1.6rem}
+@media(min-width:760px){.prezzi{grid-template-columns:1fr 1fr}}
+.prezzo{border:1px solid var(--line);border-radius:var(--radius);padding:1.5rem;background:var(--white)}
+.prezzo .cifra{font-family:var(--serif);font-size:1.9rem;color:var(--ink);font-weight:600;line-height:1.15}
+.prezzo .quando{font-family:var(--mono);font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);margin-bottom:.7rem}
+.prezzo p{font-size:.95rem;margin-top:.6rem}
+
+/* referto */
+.referto{background:var(--accent);color:#DCE7F2}
+.referto h2,.referto h3{color:var(--white)}
+.referto .eyebrow{color:#9FC0DF}
+.referto p{color:#DCE7F2}
+.referto ol{list-style:none;padding:0;counter-reset:r;display:grid;gap:.6rem;margin:1.4rem 0 1.6rem;max-width:38rem}
+.referto ol li{counter-increment:r;padding-left:2rem;position:relative;font-size:.97rem;color:#DCE7F2}
+.referto ol li::before{
+  content:"0" counter(r);position:absolute;left:0;top:.1em;
+  font-family:var(--mono);font-size:.78rem;color:#9FC0DF;
+}
+.referto .btn{background:var(--white);color:var(--accent-ink);border-color:var(--white)}
+.referto .btn:hover{background:#E8EFF6}
+.referto .sotto-azioni{color:#9FC0DF}
+
+/* chiusura */
+.contatti{background:var(--white)}
+.recapiti{display:grid;gap:.5rem;margin-top:1.4rem;font-size:1.02rem}
+.recapiti a{font-weight:600;text-decoration:none}
+.recapiti a:hover{text-decoration:underline}
+footer{padding-block:2.5rem;font-size:.85rem;color:var(--muted)}
+footer a{text-decoration:none}
+footer a:hover{text-decoration:underline}
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="container header-inner">
+    <a class="brand" href="../" aria-label="Simone Torregrossa, torna alla home">
+      <span class="brand-mark" aria-hidden="true">ST</span>
+      <span class="brand-name">Simone&nbsp;Torregrossa</span>
+    </a>
+    <a class="torna" href="../">Tutto il resto del sito</a>
+  </div>
+</header>
+
+<main>
+
+  <section class="hero">
+    <div class="container">
+      <p class="eyebrow">Per chi affitta case vacanze, B&amp;B e affittacamere</p>
+      <h1>Booking ti costa due volte:<br>in soldi e in tempo.</h1>
+      <p class="occhiello">Costruisco il sistema che fa prenotare gli ospiti direttamente da te, e che poi lavora da solo: conferme, promemoria, richieste di recensione, ospiti che tornano. Il sito è solo il posto dove tutto questo succede.</p>
+      <div class="azioni">
+        <a class="btn" href="https://wa.me/393922127087">Scrivimi su WhatsApp</a>
+        <a class="btn chiaro" href="https://www.casatolomea.it" rel="noopener">Guarda un lavoro vero</a>
+      </div>
+      <p class="sotto-azioni">Rispondo io, non un centralino automatico.</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="container">
+      <p class="eyebrow">I due costi</p>
+      <h2>Uno lo vedi in fattura, l'altro no</h2>
+      <p class="guida">E vanno guardati insieme, perché si pagano insieme, tutti i giorni.</p>
+
+      <div class="costi">
+        <div class="costo">
+          <p class="num">01</p>
+          <h3>I soldi</h3>
+          <p>Ogni prenotazione che entra dal portale lascia lì una fetta, e la lascia per sempre. Anche quando l'ospite sarebbe arrivato lo stesso, perché gliene ha parlato un amico o perché è passato davanti alla porta.</p>
+          <div class="scena">
+            <b>Facciamo il conto vero.</b> Una casa che fa 30.000 € l'anno e ne passa il 70% dal portale, con una commissione del 18%, lascia lì circa <b>3.800 € l'anno</b>. Ogni anno. È il prezzo di una ristrutturazione del bagno, che se ne va senza che tu lo veda mai uscire dal conto.
+          </div>
+        </div>
+        <div class="costo">
+          <p class="num">02</p>
+          <h3>Il tempo</h3>
+          <p>Senza un posto dove l'ospite si serve da solo, ogni cosa la fai a mano: rispondere, confermare, ricordare il check-in, chiedere la recensione, riscrivere a chi non torna da due anni.</p>
+          <div class="scena">
+            <b>La scena vera.</b> È domenica sera, sei a tavola, e arriva il messaggio "avete libero dal 12?". Ti alzi, apri il calendario sul telefono, controlli, rispondi. Se non ti alzi subito, quello scrive a un'altra casa. Un sistema acceso risponde al posto tuo, in quattro lingue, mentre tu resti seduto.
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="container">
+      <p class="eyebrow">Cosa fa il sistema</p>
+      <h2>In parole semplici, quello che si accende</h2>
+      <p class="guida">Ogni riga qui sotto corrisponde a qualcosa che è già acceso e funziona su una casa vera, non a una promessa.</p>
+
+      <div class="blocchi">
+        <div class="blocco">
+          <h3>Quello che vede l'ospite</h3>
+          <ul>
+            <li>Il sito in italiano, inglese, francese e tedesco</li>
+            <li>Le date libere, prese dal tuo calendario</li>
+            <li>La richiesta di prenotazione, con la ricevuta subito per email</li>
+            <li>La lista d'attesa se le date sono occupate</li>
+            <li>Un prezzo più basso di quello del portale, se lo vuoi</li>
+          </ul>
+        </div>
+        <div class="blocco">
+          <h3>Quello che vedi tu</h3>
+          <ul>
+            <li>Un pannello con le richieste da accettare o rifiutare</li>
+            <li>Le tue tariffe per periodo, che cambi da solo</li>
+            <li>Le date che si allineano con i portali</li>
+            <li>Quante persone entrano nel sito e da dove arrivano</li>
+          </ul>
+        </div>
+        <div class="blocco">
+          <h3>Le email che partono da sole</h3>
+          <ul>
+            <li>La ricevuta all'ospite e l'avviso a te</li>
+            <li>La conferma con i dati per la caparra</li>
+            <li>Il no gentile, con le prime date libere al posto suo</li>
+            <li>Il promemoria il giorno prima e il giorno dell'arrivo</li>
+            <li>La richiesta di recensione dopo il check out</li>
+            <li>L'avviso a chi era in lista quando si libera un posto</li>
+            <li>Il messaggio a chi non torna da tanto, con uno sconto</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="limiti">
+    <div class="container">
+      <p class="eyebrow">Da leggere prima del resto</p>
+      <h2>Le quattro cose che il sistema non fa</h2>
+      <p class="guida">Te le dico io per prime, così non le scopri dopo aver pagato.</p>
+      <ol>
+        <li><span><b>Allineo le date, non i prezzi.</b> Se cambi una tariffa sul portale, sul sito la cambi a mano. Non è un channel manager e non te lo vendo come tale.</span></li>
+        <li><span><b>Le date passano con qualche minuto di ritardo.</b> Non è istantaneo. Su una casa che affitta a notti intere non è mai stato un problema, ma è giusto che tu lo sappia.</span></li>
+        <li><span><b>Non c'è il pagamento con carta online.</b> L'ospite manda la richiesta, tu confermi, lui manda la caparra con un bonifico. Se ti serve la carta, oggi non ce l'ho.</span></li>
+        <li><span><b>Chi non compila il modulo resta invisibile.</b> Se uno guarda il sito e se ne va senza lasciare niente, non so chi era e non posso richiamarlo.</span></li>
+      </ol>
+    </div>
+  </section>
+
+  <section>
+    <div class="container">
+      <p class="eyebrow">La prova</p>
+      <h2>Una casa vera, che puoi aprire adesso</h2>
+      <div class="prova">
+        <p class="riga">Casa Tolomea, Mondello (Palermo) · cliente pagante dal luglio 2026</p>
+        <h3>casatolomea.it</h3>
+        <p>Sito in quattro lingue, motore di richiesta e conferma, calendario allineato con i portali, dieci email che partono da sole, pannello di gestione usato dai proprietari tutti i giorni. È tutto quello che c'è scritto sopra, acceso, su una casa che lavora.</p>
+        <p style="margin-top:.9rem"><a href="https://www.casatolomea.it" rel="noopener">Apri il sito</a> e prova a chiedere una data, come farebbe un ospite.</p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="container">
+      <p class="eyebrow">Quanto costa</p>
+      <h2>Dipende da quante camere hai, e ti spiego perché</h2>
+      <div class="prezzi">
+        <div class="prezzo">
+          <p class="quando">Da 5 camere in su</p>
+          <p class="cifra">349 € una volta<br>+ 10%</p>
+          <p>I 349 € sono per costruirlo e accenderlo, e il sistema resta tuo. Poi prendo il 10% solo sulle prenotazioni che passano da lì: se non ti porta niente, non paghi niente. È meno di quello che lasci al portale.</p>
+        </div>
+        <div class="prezzo">
+          <p class="quando">Una o due unità</p>
+          <p class="cifra">Cifra fissa,<br>decisa insieme</p>
+          <p>Sotto le cinque camere il 10% non conviene a nessuno dei due: a te sembra un secondo portale, a me non copre il lavoro. Quindi si fa una cifra sola, detta prima, senza percentuali.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="referto">
+    <div class="container">
+      <p class="eyebrow">Il primo passo</p>
+      <h2>Prima ti mando il referto del tuo sito. Gratis.</h2>
+      <p>Non ti chiedo una telefonata e non ti mando un preventivo. Guardo la tua struttura per venti minuti e ti scrivo cosa ho trovato, in cinque punti:</p>
+      <ol>
+        <li>Se dal tuo sito si riesce davvero a prenotare, provando con date vere</li>
+        <li>Quanti secondi ci mette ad aprirsi dal telefono</li>
+        <li>Come sta la tua scheda su Google Maps</li>
+        <li>Cosa succede a chi ti scrive, e da quante parti diverse ti arrivano i messaggi</li>
+        <li>Quanto stai lasciando al portale in un anno, con i tuoi numeri veri</li>
+      </ol>
+      <p>Se dal referto viene fuori che è tutto a posto, te lo dico e finisce lì. Mi è già successo, e va benissimo così: se non hai un buco, non ho niente da venderti.</p>
+      <div class="azioni">
+        <a class="btn" href="https://wa.me/393922127087">Chiedimi il referto su WhatsApp</a>
+      </div>
+      <p class="sotto-azioni">Te lo mando entro un giorno. Non ti richiamo e non ti scrivo più se non rispondi.</p>
+    </div>
+  </section>
+
+  <section class="contatti">
+    <div class="container">
+      <p class="eyebrow">Chi sono</p>
+      <h2>Simone Torregrossa</h2>
+      <p>Lavoro da solo e da remoto, da Palermo. Non ho un'agenzia dietro e non rivendo il programma di qualcun altro: queste cose le costruisco io, quindi quando qualcosa non va rispondo io e lo sistemo io.</p>
+      <div class="recapiti">
+        <p>WhatsApp <a href="https://wa.me/393922127087">+39 392 212 7087</a></p>
+        <p>Email <a href="mailto:simone.torregrossa.pa@gmail.com">simone.torregrossa.pa@gmail.com</a></p>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="container">
+    <p>Simone Torregrossa · sviluppatore di automazioni · Palermo · <a href="../">tutti i lavori</a></p>
+  </div>
+</footer>
+
+</body>
+</html>
