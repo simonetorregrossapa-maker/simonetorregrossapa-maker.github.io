@@ -1,165 +1,149 @@
-/* ============================================================
-   Simone Torregrossa — Portfolio
-   Vanilla JS · nessuna dipendenza
-   ============================================================ */
+/* Simone Torregrossa · portfolio
+   JavaScript senza dipendenze. */
 (function () {
   "use strict";
 
-  /* ---------- Anno corrente nel footer ---------- */
-  var yearEl = document.getElementById("year");
-  if (yearEl) yearEl.textContent = String(new Date().getFullYear());
+  var GIORNO = 86400000;
 
-  /* ---------- Header: bordo all'inizio dello scroll ---------- */
-  var header = document.querySelector(".site-header");
-  if (header) {
-    var onScroll = function () {
-      header.classList.toggle("scrolled", window.scrollY > 8);
-    };
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
+  /* ---------- Barra in alto: il bordo compare quando scorri ---------- */
+  var top = document.querySelector(".top");
+  if (top) {
+    var segna = function () { top.classList.toggle("is-scrolled", window.scrollY > 8); };
+    segna();
+    window.addEventListener("scroll", segna, { passive: true });
   }
 
-  /* ---------- Menu mobile ---------- */
-  var toggle = document.querySelector(".nav-toggle");
-  var menu = document.getElementById("nav-menu");
-  if (toggle && menu) {
-    var closeMenu = function () {
-      menu.classList.remove("open");
-      toggle.setAttribute("aria-expanded", "false");
-      toggle.setAttribute("aria-label", "Apri il menu");
-    };
-    toggle.addEventListener("click", function () {
-      var open = menu.classList.toggle("open");
-      toggle.setAttribute("aria-expanded", String(open));
-      toggle.setAttribute("aria-label", open ? "Chiudi il menu" : "Apri il menu");
-    });
-    // Chiudi al click su un link o con Esc
-    menu.addEventListener("click", function (e) {
-      if (e.target.tagName === "A") closeMenu();
-    });
-    document.addEventListener("keydown", function (e) {
-      if (e.key === "Escape") closeMenu();
+  /* ---------- Titolo: una parola alla volta (solo per l'ingresso) ---------- */
+  var titolo = document.querySelector(".hero-title");
+  if (titolo) {
+    var testo = titolo.textContent.trim();
+    titolo.setAttribute("aria-label", testo);
+    titolo.textContent = "";
+    testo.split(" ").forEach(function (parola, i) {
+      var w = document.createElement("span");
+      w.className = "w";
+      w.setAttribute("aria-hidden", "true");
+      w.style.setProperty("--i", i);
+      w.textContent = parola;
+      titolo.appendChild(w);
+      titolo.appendChild(document.createTextNode(" "));
     });
   }
 
-  /* ---------- Reveal on scroll (IntersectionObserver) ---------- */
-  var reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  var revealEls = document.querySelectorAll(".reveal");
+  /* ---------- Giorni in produzione, contati da soli ---------- */
+  document.querySelectorAll("[data-days-from]").forEach(function (el) {
+    var p = el.getAttribute("data-days-from").split("-");
+    var inizio = new Date(+p[0], +p[1] - 1, +p[2]);
+    var d = new Date();
+    var oggi = new Date(d.getFullYear(), d.getMonth(), d.getDate());
+    var giorni = Math.round((oggi - inizio) / GIORNO);
+    if (giorni > 0) el.textContent = giorni + " giorni";
+  });
+  var riduci = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var vede = "IntersectionObserver" in window;
 
-  if (reduceMotion || !("IntersectionObserver" in window)) {
-    revealEls.forEach(function (el) { el.classList.add("is-visible"); });
+  var anno = document.getElementById("year");
+  if (anno) anno.textContent = String(new Date().getFullYear());
+
+  /* ---------- Schermate dei casi: si scoprono una volta ---------- */
+  var daScoprire = document.querySelectorAll(".reveal-img");
+  if (riduci || !vede) {
+    daScoprire.forEach(function (el) { el.classList.add("is-in"); });
   } else {
-    var io = new IntersectionObserver(function (entries) {
-      entries.forEach(function (entry) {
-        if (entry.isIntersecting) {
-          entry.target.classList.add("is-visible");
-          io.unobserve(entry.target);
-        }
+    var ioImg = new IntersectionObserver(function (voci) {
+      voci.forEach(function (v) {
+        if (v.isIntersecting) { v.target.classList.add("is-in"); ioImg.unobserve(v.target); }
       });
-    }, { threshold: 0.12, rootMargin: "0px 0px -8% 0px" });
-    revealEls.forEach(function (el) { io.observe(el); });
+    }, { rootMargin: "0px 0px -15% 0px" });
+    daScoprire.forEach(function (el) { ioImg.observe(el); });
   }
 
-  /* ============================================================
-     Form di contatto — validazione + invio Web3Forms
-     ============================================================ */
+  /* ---------- Helm: la schermata segue il punto che stai leggendo ---------- */
+  var passi = Array.prototype.slice.call(document.querySelectorAll(".sh"));
+  var foto = Array.prototype.slice.call(document.querySelectorAll(".shots .shot"));
+  var telefono = document.querySelector(".sticky-phone");
+  function accendi(n) {
+    passi.forEach(function (p) { p.classList.toggle("is-on", p.getAttribute("data-shot") === String(n)); });
+    /* Il quarto punto mostra la giornata da computer col telefono accanto */
+    var quale = n < foto.length ? n : 0;
+    foto.forEach(function (f, i) { f.classList.toggle("is-on", i === quale); });
+    if (telefono) telefono.classList.toggle("is-on", n >= foto.length);
+  }
+  if (passi.length && foto.length) {
+    accendi(0);
+    if (vede) {
+      var ioPassi = new IntersectionObserver(function (voci) {
+        voci.forEach(function (v) {
+          if (v.isIntersecting) accendi(+v.target.getAttribute("data-shot"));
+        });
+      }, { rootMargin: "-45% 0px -45% 0px" });
+      passi.forEach(function (p) { ioPassi.observe(p); });
+    }
+  }
+
+  /* ---------- Modulo contatti: controllo dei campi e invio con Web3Forms ---------- */
   var form = document.getElementById("contact-form");
   if (!form) return;
+  var stato = document.getElementById("form-status");
+  var invia = document.getElementById("submit-btn");
+  var etichetta = invia ? invia.querySelector(".btn-label") : null;
 
-  var statusEl = document.getElementById("form-status");
-  var submitBtn = document.getElementById("submit-btn");
-  var btnLabel = submitBtn ? submitBtn.querySelector(".btn-label") : null;
-
-  var validators = {
-    name: function (v) { return v.trim().length >= 2 || "Inserisci il tuo nome."; },
+  var regole = {
+    name: function (v) { return v.trim().length >= 2 || "Scrivi il tuo nome."; },
     email: function (v) {
-      if (!v.trim()) return "Inserisci la tua email.";
-      return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.trim()) || "Inserisci un'email valida.";
+      if (!v.trim()) return "Scrivi la tua email, così ti posso rispondere.";
+      return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.trim()) || "Questa email non sembra completa: controlla la chiocciola e il punto.";
     },
-    message: function (v) { return v.trim().length >= 10 || "Scrivi almeno qualche parola."; }
+    message: function (v) { return v.trim().length >= 10 || "Scrivi almeno una frase su cosa ti serve."; }
   };
-
-  function setError(name, msg) {
-    var field = form.elements[name];
-    var errEl = form.querySelector('[data-error-for="' + name + '"]');
-    if (errEl) errEl.textContent = msg || "";
-    if (field) {
-      if (msg) field.setAttribute("aria-invalid", "true");
-      else field.removeAttribute("aria-invalid");
-    }
+  function errore(nome, msg) {
+    var campo = form.elements[nome];
+    var el = form.querySelector('[data-error-for="' + nome + '"]');
+    if (el) el.textContent = msg || "";
+    if (campo) { if (msg) campo.setAttribute("aria-invalid", "true"); else campo.removeAttribute("aria-invalid"); }
   }
-
-  function validateField(name) {
-    var field = form.elements[name];
-    if (!field) return true;
-    var result = validators[name](field.value);
-    if (result === true) { setError(name, ""); return true; }
-    setError(name, result);
-    return false;
+  function controlla(nome) {
+    var campo = form.elements[nome];
+    if (!campo) return true;
+    var r = regole[nome](campo.value);
+    errore(nome, r === true ? "" : r);
+    return r === true;
   }
-
-  // Validazione su blur (non a ogni tasto)
-  ["name", "email", "message"].forEach(function (name) {
-    var field = form.elements[name];
-    if (!field) return;
-    field.addEventListener("blur", function () { validateField(name); });
-    field.addEventListener("input", function () {
-      if (field.getAttribute("aria-invalid") === "true") validateField(name);
-    });
+  ["name", "email", "message"].forEach(function (nome) {
+    var campo = form.elements[nome];
+    if (!campo) return;
+    campo.addEventListener("blur", function () { controlla(nome); });
+    campo.addEventListener("input", function () { if (campo.getAttribute("aria-invalid") === "true") controlla(nome); });
   });
-
-  function setStatus(msg, type) {
-    if (!statusEl) return;
-    statusEl.textContent = msg;
-    statusEl.classList.remove("is-success", "is-error");
-    if (type) statusEl.classList.add("is-" + type);
+  function scrivi(msg, tipo) {
+    if (!stato) return;
+    stato.textContent = msg;
+    stato.classList.remove("is-success", "is-error");
+    if (tipo) stato.classList.add("is-" + tipo);
   }
-
   form.addEventListener("submit", function (e) {
     e.preventDefault();
-
-    // Honeypot: se compilato, fingi successo e fermati
-    if (form.elements["botcheck"] && form.elements["botcheck"].checked) return;
-
-    var ok = ["name", "email", "message"].map(validateField).every(Boolean);
+    if (form.elements.botcheck && form.elements.botcheck.checked) return;
+    var ok = ["name", "email", "message"].map(controlla).every(Boolean);
     if (!ok) {
-      setStatus("Controlla i campi evidenziati.", "error");
-      var firstInvalid = form.querySelector('[aria-invalid="true"]');
-      if (firstInvalid) firstInvalid.focus();
+      scrivi("Controlla i campi segnati in rosso.", "error");
+      var primo = form.querySelector('[aria-invalid="true"]');
+      if (primo) primo.focus();
       return;
     }
-
-    var accessKey = form.elements["access_key"] ? form.elements["access_key"].value : "";
-    if (!accessKey || accessKey === "YOUR_WEB3FORMS_ACCESS_KEY") {
-      setStatus("Form non ancora configurato: manca la Web3Forms access key.", "error");
-      return;
-    }
-
-    // Stato di caricamento
-    if (submitBtn) submitBtn.disabled = true;
-    if (btnLabel) btnLabel.textContent = "Invio in corso…";
-    setStatus("", null);
-
-    fetch(form.action, {
-      method: "POST",
-      headers: { Accept: "application/json" },
-      body: new FormData(form)
-    })
-      .then(function (res) { return res.json().then(function (d) { return { ok: res.ok, data: d }; }); })
+    if (invia) invia.disabled = true;
+    if (etichetta) etichetta.textContent = "Invio in corso…";
+    scrivi("", null);
+    fetch(form.action, { method: "POST", headers: { Accept: "application/json" }, body: new FormData(form) })
+      .then(function (r) { return r.json().then(function (d) { return { ok: r.ok, d: d }; }); })
       .then(function (r) {
-        if (r.ok && r.data.success) {
-          form.reset();
-          setStatus("Messaggio inviato. Ti rispondo a breve, grazie!", "success");
-        } else {
-          setStatus((r.data && r.data.message) || "Qualcosa è andato storto. Riprova o scrivimi via email.", "error");
-        }
+        if (r.ok && r.d.success) { form.reset(); scrivi("Messaggio inviato. Ti rispondo entro un giorno lavorativo.", "success"); }
+        else scrivi("Il messaggio non è partito. Riprova tra poco o scrivimi a simone.torregrossa.pa@gmail.com.", "error");
       })
-      .catch(function () {
-        setStatus("Errore di rete. Controlla la connessione o scrivimi via email.", "error");
-      })
+      .catch(function () { scrivi("Sembra che manchi la connessione. Riprova o scrivimi a simone.torregrossa.pa@gmail.com.", "error"); })
       .finally(function () {
-        if (submitBtn) submitBtn.disabled = false;
-        if (btnLabel) btnLabel.textContent = "Invia messaggio";
+        if (invia) invia.disabled = false;
+        if (etichetta) etichetta.textContent = "Invia messaggio";
       });
   });
 })();

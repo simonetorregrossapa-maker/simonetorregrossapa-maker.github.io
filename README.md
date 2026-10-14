@@ -12,7 +12,7 @@ Cerca questi segnaposto e sostituiscili (sono tutti marcati con `TODO` nel codic
 | Cosa | Dove | Valore attuale (da cambiare) |
 |------|------|------------------------------|
 | **Web3Forms access key** | `index.html` → `<input name="access_key">` | `YOUR_WEB3FORMS_ACCESS_KEY` |
-| **URL LinkedIn** | `index.html` (sezione contatti + JSON-LD) | `https://www.linkedin.com/in/simone-torregrossa` |
+| **URL LinkedIn** | `index.html` (sezione contatti + JSON-LD) | `https://www.linkedin.com/in/simonetorregrossa1234` |
 | **URL GitHub** | `index.html` (sezione contatti + JSON-LD) | `https://github.com/simonetorregrossa` |
 | **URL del sito** | `index.html` (canonical, Open Graph, JSON-LD), `robots.txt`, `sitemap.xml` | `https://simonetorregrossa.github.io/` |
 
