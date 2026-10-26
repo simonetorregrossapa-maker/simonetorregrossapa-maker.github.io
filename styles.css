@@ -313,7 +313,8 @@ p { text-wrap: pretty; }
 .timeline li { position: relative; padding: 0 0 26px 30px; display: grid; gap: 2px; }
 .timeline li::before { content: ""; position: absolute; left: 0; top: 7px; width: 11px; height: 11px; border-radius: 50%; background: var(--bg); border: 2px solid var(--blu); }
 .timeline li:last-child::before { background: var(--blu); }
-.timeline time { font: 400 12.5px/1.6 var(--mono); color: var(--ink-3); }
+.timeline time, .timeline .tl-oggi { font: 400 12.5px/1.6 var(--mono); color: var(--ink-3); }
+.timeline .tl-oggi { color: var(--blu-scuro); }
 .timeline span { font-weight: 500; }
 @media (max-width: 860px) { .about { grid-template-columns: 1fr; } }
 

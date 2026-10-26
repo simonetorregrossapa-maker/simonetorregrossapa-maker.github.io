@@ -42,6 +42,31 @@
   var riduci = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   var vede = "IntersectionObserver" in window;
 
+  /* ---------- Fatti: i numeri contano da zero la prima volta che li vedi ---------- */
+  var daContare = document.querySelectorAll("[data-count]");
+  if (!riduci && vede && daContare.length) {
+    var conta = function (el) {
+      var m = el.textContent.match(/^(\d+)(.*)$/);
+      if (!m) return;
+      var fine = +m[1], coda = m[2], t0 = null, durata = 1400;
+      var passo = function (t) {
+        if (t0 === null) t0 = t;
+        var k = Math.min(1, (t - t0) / durata);
+        var e = 1 - Math.pow(1 - k, 4);
+        el.textContent = Math.round(fine * e) + coda;
+        if (k < 1) requestAnimationFrame(passo);
+      };
+      /* Lo zero si scrive solo al primo fotogramma: se la scheda non disegna, resta il numero vero */
+      requestAnimationFrame(passo);
+    };
+    var ioConta = new IntersectionObserver(function (voci) {
+      voci.forEach(function (v) {
+        if (v.isIntersecting) { conta(v.target); ioConta.unobserve(v.target); }
+      });
+    }, { rootMargin: "0px 0px -10% 0px" });
+    daContare.forEach(function (el) { ioConta.observe(el); });
+  }
+
   var anno = document.getElementById("year");
   if (anno) anno.textContent = String(new Date().getFullYear());
 
