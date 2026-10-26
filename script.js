@@ -131,4 +131,70 @@
       });
     });
   }
+
+  /* ---------- Modulo contatti: controllo dei campi e invio con Web3Forms ---------- */
+  var form = document.getElementById("contact-form");
+  if (!form) return;
+  var stato = document.getElementById("form-status");
+  var invia = document.getElementById("submit-btn");
+  var etichetta = invia ? invia.querySelector(".btn-label") : null;
+
+  var regole = {
+    name: function (v) { return v.trim().length >= 2 || "Scrivi il tuo nome."; },
+    email: function (v) {
+      if (!v.trim()) return "Scrivi la tua email, così ti posso rispondere.";
+      return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.trim()) || "Questa email non sembra completa: controlla la chiocciola e il punto.";
+    },
+    message: function (v) { return v.trim().length >= 10 || "Scrivi almeno una frase su cosa ti serve."; }
+  };
+  function errore(nome, msg) {
+    var campo = form.elements[nome];
+    var el = form.querySelector('[data-error-for="' + nome + '"]');
+    if (el) el.textContent = msg || "";
+    if (campo) { if (msg) campo.setAttribute("aria-invalid", "true"); else campo.removeAttribute("aria-invalid"); }
+  }
+  function controlla(nome) {
+    var campo = form.elements[nome];
+    if (!campo) return true;
+    var r = regole[nome](campo.value);
+    errore(nome, r === true ? "" : r);
+    return r === true;
+  }
+  ["name", "email", "message"].forEach(function (nome) {
+    var campo = form.elements[nome];
+    if (!campo) return;
+    campo.addEventListener("blur", function () { controlla(nome); });
+    campo.addEventListener("input", function () { if (campo.getAttribute("aria-invalid") === "true") controlla(nome); });
+  });
+  function scrivi(msg, tipo) {
+    if (!stato) return;
+    stato.textContent = msg;
+    stato.classList.remove("is-success", "is-error");
+    if (tipo) stato.classList.add("is-" + tipo);
+  }
+  form.addEventListener("submit", function (e) {
+    e.preventDefault();
+    if (form.elements.botcheck && form.elements.botcheck.checked) return;
+    var ok = ["name", "email", "message"].map(controlla).every(Boolean);
+    if (!ok) {
+      scrivi("Controlla i campi segnati in rosso.", "error");
+      var primo = form.querySelector('[aria-invalid="true"]');
+      if (primo) primo.focus();
+      return;
+    }
+    if (invia) invia.disabled = true;
+    if (etichetta) etichetta.textContent = "Invio in corso…";
+    scrivi("", null);
+    fetch(form.action, { method: "POST", headers: { Accept: "application/json" }, body: new FormData(form) })
+      .then(function (r) { return r.json().then(function (d) { return { ok: r.ok, d: d }; }); })
+      .then(function (r) {
+        if (r.ok && r.d.success) { form.reset(); scrivi("Messaggio inviato. Ti rispondo entro un giorno lavorativo.", "success"); }
+        else scrivi("Il messaggio non è partito. Riprova tra poco o scrivimi a simone.torregrossa.pa@gmail.com.", "error");
+      })
+      .catch(function () { scrivi("Sembra che manchi la connessione. Riprova o scrivimi a simone.torregrossa.pa@gmail.com.", "error"); })
+      .finally(function () {
+        if (invia) invia.disabled = false;
+        if (etichetta) etichetta.textContent = "Invia messaggio";
+      });
+  });
 })();

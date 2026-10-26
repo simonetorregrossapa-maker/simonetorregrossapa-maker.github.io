@@ -63,15 +63,10 @@
     <!-- Apertura: il nome enorme che scorre, ruolo e luogo agli angoli -->
     <section class="hero" id="top" aria-labelledby="hero-title">
       <h1 class="sr" id="hero-title">Simone Torregrossa, sviluppatore software e automazioni</h1>
-      <!-- Al posto della foto, per ora: Helm da computer e da telefono (mai il lavoro del cliente qui accanto) -->
-      <div class="hero-visual" aria-hidden="true">
-        <figure class="desk"><img src="assets/sistemi/helm-conversazione.jpg" width="1600" height="1000" alt="" fetchpriority="high" /></figure>
-        <figure class="phone"><img src="assets/sistemi/helm-oggi-mob.jpg" width="647" height="1400" alt="" /></figure>
-        <span class="hero-tag">Helm · dati di prova</span>
-      </div>
+      <img class="hero-photo" src="assets/ritratto.jpg" width="765" height="1024" alt="Simone Torregrossa" fetchpriority="high" />
       <div class="hero-corner">
         <svg class="hero-arrow" width="28" height="28" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 6l12 12m0 0V8m0 10H8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        <p class="hero-role">Sviluppatore<br />software e automazioni</p>
+        <p class="hero-role">Sviluppatore software<br />e automazioni</p>
       </div>
       <div class="hero-side">
         <p class="hero-avail"><span class="avail" aria-hidden="true"></span>Disponibile per nuovi progetti</p>
@@ -102,10 +97,32 @@
       <div class="wrap">
         <div class="work-head">
           <h2 class="work-title" id="lavori-title">Lavori</h2>
-          <p class="work-note">Due sistemi in produzione e due progetti miei. Ognuno si apre dal vivo.</p>
+          <p class="work-note">Il mio prodotto, il sistema di un cliente e i progetti più piccoli. Ognuno si apre dal vivo.</p>
         </div>
 
         <div class="work-grid">
+          <article class="job job-wide" aria-labelledby="helm-name">
+            <div class="job-media tint-blue reveal">
+              <img src="assets/sistemi/helm-oggi.jpg" width="1600" height="1000" decoding="async" alt="Helm da computer, la schermata Oggi: le cose da fare, chi deve rispondere e i soldi da incassare" />
+              <span class="job-tag">Dati di prova</span>
+            </div>
+            <div class="job-body">
+              <h3 class="job-name" id="helm-name">Helm, il sistema che manda avanti una piccola azienda</h3>
+              <p class="job-meta"><span>Prodotto mio · Full stack, WhatsApp e AI</span><span>2026</span></p>
+              <p class="job-text">Un numero WhatsApp e un pannello per chi lavora sul campo: impiantisti, manutentori, tecnici. Helm risponde ai clienti, fissa gli appuntamenti e segue i preventivi da solo. Il titolare decide e non perde più niente.</p>
+              <ul class="job-feats">
+                <li><b>Risponde su WhatsApp come una persona dell'azienda.</b> Usa il listino, trascrive i vocali e dice subito di essere un assistente automatico.</li>
+                <li><b>Fissa, sposta e annulla gli appuntamenti.</b> Guarda l'agenda e il calendario del telefono, sceglie il tecnico libero e non prenota mai due volte lo stesso orario.</li>
+                <li><b>Scrive il preventivo dalle parole del titolare.</b> Parte un PDF con una pagina dove il cliente accetta col tasto. Quando la apre, il titolare riceve l'avviso. Se il cliente tace, parte il richiamo.</li>
+                <li><b>Chiude il lavoro con il rapportino.</b> Il cliente firma col dito sul telefono e la manutenzione fatta prepara da sola quella dell'anno dopo.</li>
+                <li><b>Lavora con tutta la squadra.</b> Titolare, ufficio e tecnici vedono solo la loro parte. I lavori lunghi si dividono in fasi, ognuna con chi la fa e per quando.</li>
+                <li><b>Il titolare gli parla come a un collega</b>, dal pannello o da WhatsApp. Ogni lunedì riceve il resoconto di quello che Helm ha fatto da solo.</li>
+              </ul>
+              <ul class="job-nums"><li><b data-count>234 test</b> automatici, tutti verdi</li><li><b>Più aziende</b> nello stesso sistema, dati separati</li></ul>
+              <a class="job-go" href="#contatti">Chiedi una demo dal vivo <span aria-hidden="true">→</span></a>
+            </div>
+          </article>
+
           <article class="job">
             <a class="job-link" href="https://casatolomea.it" target="_blank" rel="noopener">
               <div class="job-media tint-sand reveal">
@@ -115,19 +132,6 @@
               <p class="job-meta"><span>Cliente · Sviluppo completo</span><span>2026</span></p>
               <p class="job-text">Il canale diretto per una casa vacanze a Mondello: sito in quattro lingue, disponibilità collegate a Booking, nove email che partono da sole e il pannello del proprietario. In produzione da <b data-days-from="2026-07-06" data-count>112 giorni</b>.</p>
               <p class="job-go">Guarda il sito dal vivo <span aria-hidden="true">↗</span><span class="sr"> (si apre in una nuova scheda)</span></p>
-            </a>
-          </article>
-
-          <article class="job">
-            <a class="job-link" href="#contatti">
-              <div class="job-media tint-blue reveal">
-                <img src="assets/sistemi/helm-oggi.jpg" width="1600" height="1000" decoding="async" alt="Helm da computer, la schermata Oggi: le cose da fare, chi deve rispondere e i soldi da incassare" />
-                <span class="job-tag">Dati di prova</span>
-              </div>
-              <h3 class="job-name">Helm, WhatsApp e gestione per le piccole aziende</h3>
-              <p class="job-meta"><span>Prodotto mio · Full stack e WhatsApp</span><span>2026</span></p>
-              <p class="job-text">Risponde ai clienti su WhatsApp col listino dell'azienda, trascrive i vocali e segue i preventivi finché il cliente non risponde. Il titolare vede la giornata in una schermata. <b data-count>194 test</b> automatici, tutti verdi.</p>
-              <p class="job-go">Chiedi una demo dal vivo <span aria-hidden="true">→</span></p>
             </a>
           </article>
 
@@ -143,20 +147,10 @@
             </a>
           </article>
 
-          <article class="job">
-            <a class="job-link" href="https://simonetorregrossapa-maker.github.io/calcolatore-ral/" target="_blank" rel="noopener">
-              <div class="job-media tint-mint reveal">
-                <img src="assets/lavori/calcolatore-ral.jpg" width="1600" height="900" loading="lazy" decoding="async" alt="Il calcolatore RAL 2026: dal lordo annuo al netto in busta" />
-              </div>
-              <h3 class="job-name">Calcolatore RAL 2026</h3>
-              <p class="job-meta"><span>Progetto mio · Web app</span><span>2026</span></p>
-              <p class="job-text">Dal lordo annuo al netto in busta, con la formula e la fonte ufficiale di ogni passaggio. 158 test automatici.</p>
-              <p class="job-go">Apri il calcolatore <span aria-hidden="true">↗</span><span class="sr"> (si apre in una nuova scheda)</span></p>
-            </a>
-          </article>
         </div>
 
         <ul class="more">
+          <li><a href="https://simonetorregrossapa-maker.github.io/calcolatore-ral/" target="_blank" rel="noopener"><span class="more-name">Calcolatore RAL 2026</span><span class="more-what">Web app, 158 test automatici</span><span class="more-go">Apri ↗</span></a></li>
           <li><a href="https://github.com/simonetorregrossapa-maker/video-tool" target="_blank" rel="noopener"><span class="more-name">Montaggio video automatico</span><span class="more-what">Python, FFmpeg, Whisper</span><span class="more-go">Codice ↗</span></a></li>
           <li><a href="https://github.com/simonetorregrossapa-maker/personalos" target="_blank" rel="noopener"><span class="more-name">Dashboard personale</span><span class="more-what">Next.js, Supabase</span><span class="more-go">Codice ↗</span></a></li>
           <li><a href="https://torregrossa-barber.netlify.app" target="_blank" rel="noopener"><span class="more-name">Siti dimostrativi</span><span class="more-what">Barberia, fotografo, palestra</span><span class="more-go">Apri ↗</span></a></li>
@@ -189,11 +183,43 @@
           <a class="round round-blu magnet" href="mailto:simone.torregrossa.pa@gmail.com"><span class="magnet-in">Scrivimi</span></a>
         </div>
         <p class="contact-lede">Cosa ti serve e per quando, in due righe. Ti rispondo con un primo parere entro un giorno lavorativo.</p>
+        <div class="contact-grid">
         <ul class="contact-pills">
           <li><a class="pill" href="mailto:simone.torregrossa.pa@gmail.com">simone.torregrossa.pa@gmail.com</a></li>
           <li><a class="pill" href="https://www.linkedin.com/in/simonetorregrossa1234" target="_blank" rel="noopener">LinkedIn</a></li>
           <li><a class="pill" href="https://github.com/simonetorregrossapa-maker" target="_blank" rel="noopener">GitHub</a></li>
         </ul>
+        <form class="form" id="contact-form" action="https://api.web3forms.com/submit" method="POST" novalidate>
+          <input type="hidden" name="access_key" value="b5f6e8c5-0296-4afb-b87f-23608b75e1dd" />
+          <input type="hidden" name="subject" value="Nuovo messaggio dal sito, Simone Torregrossa" />
+          <input type="hidden" name="from_name" value="Sito Simone Torregrossa" />
+          <input type="checkbox" name="botcheck" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true" />
+          <div class="field-row">
+            <div class="field">
+              <label for="name">Nome</label>
+              <input type="text" id="name" name="name" autocomplete="name" required />
+              <p class="err" data-error-for="name" aria-live="polite"></p>
+            </div>
+            <div class="field">
+              <label for="email">Email</label>
+              <input type="email" id="email" name="email" autocomplete="email" inputmode="email" required />
+              <p class="err" data-error-for="email" aria-live="polite"></p>
+            </div>
+          </div>
+          <div class="field">
+            <label for="company">Azienda <span class="opt">(facoltativo)</span></label>
+            <input type="text" id="company" name="company" autocomplete="organization" />
+          </div>
+          <div class="field">
+            <label for="message">Cosa ti serve</label>
+            <textarea id="message" name="message" rows="5" required placeholder="Per esempio: vorrei che le richieste dal sito arrivassero già in un pannello, con la conferma automatica al cliente."></textarea>
+            <p class="err" data-error-for="message" aria-live="polite"></p>
+          </div>
+          <button class="btn-send" type="submit" id="submit-btn"><span class="btn-label">Invia messaggio</span></button>
+          <p class="form-status" id="form-status" role="status" aria-live="polite"></p>
+          <p class="form-note">Inviando accetti di essere ricontattato via email. I dati non vengono usati per altri scopi.</p>
+        </form>
+        </div>
       </div>
       <footer class="foot wrap">
         <div><span class="foot-k">Edizione</span><span>2026 ©</span></div>
