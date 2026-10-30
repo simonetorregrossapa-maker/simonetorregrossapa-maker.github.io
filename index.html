@@ -27,7 +27,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400..700&family=Geist+Mono:wght@400..600&display=swap" />
-  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="styles.css?v=20261030d" />
   <script>document.documentElement.classList.add("js");</script>
   <script type="application/ld+json">
   {
@@ -60,10 +60,12 @@
   </header>
 
   <main id="main">
-    <!-- Apertura: il nome enorme che scorre, ruolo e luogo agli angoli -->
+    <!-- Apertura: il nome enorme scorre DIETRO il ritratto ritagliato, ruolo e luogo agli angoli -->
     <section class="hero" id="top" aria-labelledby="hero-title">
       <h1 class="sr" id="hero-title">Simone Torregrossa, sviluppatore software e automazioni</h1>
-      <img class="hero-photo" src="assets/ritratto.jpg" width="765" height="1024" alt="Simone Torregrossa" fetchpriority="high" />
+      <div class="hero-figure">
+        <img class="hero-photo" src="assets/ritratto-ritaglio.webp" width="765" height="1024" alt="Simone Torregrossa" fetchpriority="high" />
+      </div>
       <div class="hero-corner">
         <svg class="hero-arrow" width="28" height="28" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 6l12 12m0 0V8m0 10H8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
         <p class="hero-role">Sviluppatore software<br />e automazioni</p>
@@ -73,6 +75,14 @@
         <p class="hero-place">Palermo, da remoto in tutta Italia</p>
       </div>
       <div class="marquee" aria-hidden="true">
+        <div class="marquee-track">
+          <span class="marquee-item">Simone Torregrossa <i>—</i></span>
+          <span class="marquee-item">Simone Torregrossa <i>—</i></span>
+        </div>
+      </div>
+      <!-- Lo stesso nome in solo contorno, davanti alla foto e ritagliato sulla sua sagoma:
+           dove le lettere passano dietro la giacca, se ne vede il profilo e il nome si legge sempre -->
+      <div class="marquee marquee-front" aria-hidden="true">
         <div class="marquee-track">
           <span class="marquee-item">Simone Torregrossa <i>—</i></span>
           <span class="marquee-item">Simone Torregrossa <i>—</i></span>
@@ -228,6 +238,6 @@
     </section>
   </main>
 
-  <script src="script.js" defer></script>
+  <script src="script.js?v=20261030d" defer></script>
 </body>
 </html>

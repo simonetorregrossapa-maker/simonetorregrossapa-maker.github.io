@@ -28,7 +28,9 @@
   }
 
   /* ---------- Il nome che scorre: gira da solo, scorrendo cambia verso ---------- */
-  var traccia = document.querySelector(".marquee-track");
+  /* Due strisce (il nome pieno dietro e il contorno davanti) che si muovono insieme */
+  var tracce = document.querySelectorAll(".marquee-track");
+  var traccia = tracce[0];
   if (traccia && !riduci) {
     var x = 0, verso = -1, ultimoY = window.scrollY, prima = null, visibile = true;
     if (vede) {
@@ -48,12 +50,51 @@
         x += verso * (t - prima) * 0.06;
         if (x <= -meta) x += meta;
         if (x > 0) x -= meta;
-        traccia.style.transform = "translate3d(" + x + "px,0,0)";
+        for (var i = 0; i < tracce.length; i++) tracce[i].style.transform = "translate3d(" + x + "px,0,0)";
       }
       prima = t;
       if (visibile) requestAnimationFrame(gira);
     };
     if (!vede) requestAnimationFrame(gira);
+  }
+
+  /* ---------- Profondità scorrendo: lui resta piantato a terra, il nome gli sale dietro ----------
+     Il contorno davanti sale con il nome, ma la sua maschera (la sagoma della foto) resta ferma:
+     per questo la posizione della maschera si corregge dello stesso spostamento */
+  var hero = document.querySelector(".hero");
+  var fascia = document.querySelector(".marquee");
+  var fronte = document.querySelector(".marquee-front");
+  var figura = document.querySelector(".hero-figure");
+  if (hero && fascia) {
+    var sagoma = null, inAttesa = false;
+    var misura = function () {
+      if (!fronte || !figura) return;
+      var h = hero.getBoundingClientRect(), f = figura.getBoundingClientRect();
+      fronte.style.top = fascia.offsetTop + "px";
+      fronte.style.height = fascia.offsetHeight + "px";
+      sagoma = { x: f.left - h.left, y: f.top - h.top - fascia.offsetTop, w: f.width, h: f.height };
+      var dim = sagoma.w + "px " + sagoma.h + "px";
+      fronte.style.webkitMaskSize = dim; fronte.style.maskSize = dim;
+    };
+    var muovi = function () {
+      inAttesa = false;
+      var p = riduci ? 0 : Math.min(1, Math.max(0, window.scrollY / hero.offsetHeight));
+      var dy = -p * 0.32 * fascia.offsetHeight;
+      fascia.style.transform = "translate3d(0," + dy + "px,0)";
+      if (fronte && sagoma) {
+        fronte.style.transform = "translate3d(0," + dy + "px,0)";
+        var pos = sagoma.x + "px " + (sagoma.y - dy) + "px";
+        fronte.style.webkitMaskPosition = pos; fronte.style.maskPosition = pos;
+      }
+    };
+    misura(); muovi();
+    window.addEventListener("load", function () { misura(); muovi(); });
+    window.addEventListener("resize", function () { misura(); muovi(); });
+    if (!riduci) {
+      window.addEventListener("scroll", function () {
+        if (!inAttesa && window.scrollY < hero.offsetHeight * 1.2) { inAttesa = true; requestAnimationFrame(muovi); }
+      }, { passive: true });
+    }
   }
 
   /* ---------- Frase grande: parole in maschera ---------- */

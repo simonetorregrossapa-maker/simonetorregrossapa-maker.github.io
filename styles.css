@@ -72,20 +72,23 @@ p { text-wrap: pretty; }
 }
 @media (max-width: 640px) { .hide-mob { display: none; } }
 
-/* ---------- Apertura: la foto al centro, il nome che le scorre davanti ---------- */
+/* ---------- Apertura: il ritratto ritagliato davanti, il nome che gli scorre dietro ---------- */
 .hero {
   position: relative; min-height: 100vh; min-height: 100svh; overflow: hidden;
   background: #dde3e9; /* lo stesso grigio dello sfondo della foto */
   display: grid; grid-template-rows: 1fr auto; align-items: end;
 }
-.hero-photo {
-  position: absolute; left: 50%; bottom: 0; z-index: 0;
-  height: min(90%, 900px); width: auto; transform: translateX(-50%);
-  /* I bordi della foto si sciolgono nel fondo: niente rettangolo, niente spalle tagliate */
-  -webkit-mask-image: radial-gradient(ellipse 60% 74% at 50% 48%, #000 60%, transparent 100%);
-  mask-image: radial-gradient(ellipse 60% 74% at 50% 48%, #000 60%, transparent 100%);
+/* Il contenitore porta la parallasse, la foto porta l'entrata: due trasformazioni che non si pestano */
+.hero-figure {
+  position: absolute; left: 50%; bottom: 0; z-index: 2;
+  height: min(92%, 920px, calc(42vw * 1024 / 765)); aspect-ratio: 765 / 1024; transform: translateX(-50%);
+  pointer-events: none;
 }
-.hero-corner, .hero-side, .marquee { position: relative; z-index: 1; }
+/* Il contorno è il ritaglio vero della foto. I tagli della giacca (in basso e ai lati) sfumano
+   nel grigio del fondo dentro l'immagine stessa, così le lettere dietro restano coperte */
+.hero-photo { width: 100%; height: 100%; object-fit: contain; object-position: bottom; transform-origin: 50% 100%; }
+.marquee { position: relative; z-index: 1; }
+.hero-corner, .hero-side { position: relative; z-index: 3; }
 .hero-corner { grid-row: 1; padding: 0 var(--gutter) 30px; align-self: end; }
 .hero-arrow { color: var(--ink); margin-bottom: 18px; }
 .hero-role { font-size: clamp(22px, 2.4vw, 36px); line-height: 1.15; letter-spacing: -0.025em; font-weight: 500; }
@@ -95,18 +98,31 @@ p { text-wrap: pretty; }
 }
 .hero-avail { display: inline-flex; align-items: center; justify-content: flex-end; gap: 9px; color: var(--ink); font-weight: 500; }
 .avail { width: 8px; height: 8px; border-radius: 50%; background: var(--verde-ok); box-shadow: 0 0 0 4px rgba(18, 183, 106, 0.16); }
-.marquee { grid-row: 2; overflow: hidden; padding-bottom: clamp(8px, 2vw, 28px); user-select: none; mix-blend-mode: difference; color: #fff; }
-/* Bianco in differenza: scuro sul grigio, chiaro sulla giacca. Si legge sempre */
+.marquee { grid-row: 2; overflow: hidden; padding-bottom: clamp(8px, 2vw, 28px); user-select: none; color: var(--ink); }
+/* Dietro la foto: le lettere passano sotto la giacca e riescono dall'altra parte */
 .marquee-track { display: flex; width: max-content; will-change: transform; }
 .marquee-item {
   flex: none; padding-right: 0.25em; white-space: nowrap;
-  font-size: clamp(104px, 17vw, 300px); font-weight: 500; line-height: 0.95; letter-spacing: -0.04em;
+  font-size: clamp(104px, 19vw, 330px); font-weight: 500; line-height: 0.95; letter-spacing: -0.04em;
 }
-.marquee-item i { font-style: normal; font-weight: 400; color: #9aa3b2; }
-@media (max-width: 760px) {
+.marquee-item i { font-style: normal; font-weight: 400; color: var(--ink-3); }
+/* Il contorno davanti: solo dentro la sagoma della foto (maschera = il ritaglio stesso,
+   posizionata da script.js). In differenza il bianco diventa chiaro sulla giacca e scuro sul grigio */
+.marquee.marquee-front {
+  position: absolute; left: 0; right: 0; top: 0; z-index: 3; pointer-events: none;
+  grid-row: auto; grid-column: auto; margin: 0; /* misurato rispetto all'apertura intera, non alla riga */
+  color: transparent; -webkit-text-stroke: clamp(1.5px, 0.15vw, 2.5px) #fff; mix-blend-mode: difference;
+  -webkit-mask-image: url("assets/ritratto-ritaglio.webp"); mask-image: url("assets/ritratto-ritaglio.webp");
+  -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat;
+  -webkit-mask-size: 0 0; mask-size: 0 0; /* finché lo script non lo allinea, non si vede */
+}
+.marquee-front .marquee-item i { color: transparent; }
+@media (max-width: 900px) {
   .hero { min-height: 0; grid-template-rows: auto auto auto auto; padding-top: 84px; }
-  .hero-photo { position: relative; grid-row: 1; left: auto; transform: none; justify-self: center; height: auto; width: min(82vw, 380px); }
-  .marquee { grid-row: 2; margin-top: -0.42em; }
+  /* Sul telefono il nome sta sotto la foto e ci entra dietro solo con la testa delle lettere */
+  .hero-figure { position: relative; grid-row: 1; align-self: end; left: auto; transform: none; justify-self: center; height: auto; width: min(80vw, 520px); }
+  .marquee { grid-row: 2; margin-top: -0.38em; }
+  .marquee-item { font-size: min(30vw, 230px); }
   .hero-corner { grid-row: 3; padding-top: 26px; padding-bottom: 14px; }
   .hero-side { position: relative; right: auto; top: auto; transform: none; text-align: left; grid-row: 4; padding: 0 var(--gutter) 34px; }
   .hero-avail { justify-content: flex-start; }
@@ -302,9 +318,12 @@ a.job-go { display: inline-block; }
 
 /* ---------- Movimento ---------- */
 @media (prefers-reduced-motion: no-preference) {
-  .js .marquee-item { animation: rise 1100ms var(--ease-out) 120ms both; }
-  .js .hero-corner, .js .hero-side { animation: fade-up 900ms var(--ease-out) 520ms both; }
+  /* Prima sale il ritratto, poi il nome esce da dietro di lui, poi i testi agli angoli */
   .js .hero-photo { animation: photo-in 1300ms var(--ease-out) 60ms both; }
+  .js .marquee-item { animation: rise 1100ms var(--ease-out) 380ms both; }
+  /* Il contorno arriva quando la foto si è fermata, così combacia con la sagoma */
+  .js .marquee-front { animation: fade 500ms ease 1300ms both; }
+  .js .hero-corner, .js .hero-side { animation: fade-up 900ms var(--ease-out) 700ms both; }
   .js .reveal { clip-path: inset(100% 0 0 0); transition: clip-path 1000ms var(--ease-in-out); }
   .js .reveal img { transform: scale(1.12); transition: transform 1300ms var(--ease-out); }
   .js .reveal.is-in { clip-path: inset(0 0 0 0); }
@@ -316,6 +335,11 @@ a.job-go { display: inline-block; }
   .js .reveal.is-in img { transition: transform 700ms var(--ease-out); }
   .js .job-link:hover .reveal.is-in img { transform: scale(1.035); }
 }
+/* Movimento ridotto: niente spostamenti, solo la foto e il nome che compaiono piano */
+@media (prefers-reduced-motion: reduce) {
+  .js .hero-photo, .js .marquee-item { animation: fade 400ms ease both; }
+}
+@keyframes fade { from { opacity: 0; } to { opacity: 1; } }
 @keyframes rise { from { transform: translateY(40%); opacity: 0; } to { transform: none; opacity: 1; } }
 @keyframes photo-in { from { opacity: 0; translate: 0 40px; scale: 0.97; } to { opacity: 1; translate: 0 0; scale: 1; } }
 @keyframes fade-up { from { transform: translateY(16px); opacity: 0; } to { transform: none; opacity: 1; } }
