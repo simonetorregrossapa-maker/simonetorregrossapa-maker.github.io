@@ -26,8 +26,8 @@
   <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400..700&family=Geist+Mono:wght@400..600&display=swap" />
-  <link rel="stylesheet" href="styles.css?v=20261030d" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400..700&family=Geist+Mono:wght@400..600&family=Instrument+Serif:ital@0;1&display=swap" />
+  <link rel="stylesheet" href="styles.css?v=20261030h" />
   <script>document.documentElement.classList.add("js");</script>
   <script type="application/ld+json">
   {
@@ -50,17 +50,18 @@
 <body>
   <a class="skip" href="#main">Salta al contenuto</a>
 
-  <header class="top">
+  <header class="top" id="barra">
     <a class="brand" href="#top" aria-label="Simone Torregrossa, torna su"><span class="brand-c" aria-hidden="true">©</span> Codice di Simone</a>
     <nav class="top-nav" aria-label="Sezioni">
+      <a class="hide-mob" href="#helm">Helm</a>
       <a class="hide-mob" href="#lavori">Lavori</a>
-      <a class="hide-mob" href="#servizi">Servizi</a>
-      <a href="#contatti">Contatti</a>
+      <a class="hide-mob" href="#come">Come lavoro</a>
+      <a class="top-cta" href="#contatti">Scrivimi</a>
     </nav>
   </header>
 
   <main id="main">
-    <!-- Apertura: il nome enorme scorre DIETRO il ritratto ritagliato, ruolo e luogo agli angoli -->
+    <!-- 1. Apertura: il nome enorme scorre DIETRO il ritratto ritagliato, ruolo e luogo agli angoli -->
     <section class="hero" id="top" aria-labelledby="hero-title">
       <h1 class="sr" id="hero-title">Simone Torregrossa, sviluppatore software e automazioni</h1>
       <div class="hero-figure">
@@ -80,8 +81,7 @@
           <span class="marquee-item">Simone Torregrossa <i>—</i></span>
         </div>
       </div>
-      <!-- Lo stesso nome in solo contorno, davanti alla foto e ritagliato sulla sua sagoma:
-           dove le lettere passano dietro la giacca, se ne vede il profilo e il nome si legge sempre -->
+      <!-- Lo stesso nome in solo contorno, davanti alla foto e ritagliato sulla sua sagoma -->
       <div class="marquee marquee-front" aria-hidden="true">
         <div class="marquee-track">
           <span class="marquee-item">Simone Torregrossa <i>—</i></span>
@@ -90,116 +90,231 @@
       </div>
     </section>
 
-    <!-- Una frase sola, poi chi lo fa e per chi -->
-    <section class="intro" aria-label="In breve">
-      <div class="wrap intro-grid">
-        <p class="intro-big split">Costruisco software su misura e automazioni che lavorano da sole. Dal database all'interfaccia, e resto anche dopo la consegna.</p>
-        <div class="intro-side">
+    <!-- 2. Il marchio: il bollino ST cresce fino a riempire lo schermo di blu -->
+    <section class="marchio" aria-label="Codice di Simone">
+      <div class="marchio-palco">
+        <div class="marchio-disco" aria-hidden="true"></div>
+        <p class="marchio-st" aria-hidden="true">ST</p>
+        <p class="marchio-riga">Codice di Simone<span>Software su misura e automazioni · Palermo</span></p>
+      </div>
+    </section>
+
+    <!-- 3. Il muro dei lavori: schermate vere inclinate, sopra tre frasi che si danno il cambio -->
+    <section class="muro" aria-labelledby="muro-title">
+      <div class="muro-palco">
+        <div class="muro-scena" aria-hidden="true">
+          <div class="muro-griglia">
+            <div class="muro-col">
+              <img src="assets/sistemi/helm-oggi.jpg" width="1600" height="1000" alt="" decoding="async" />
+              <img src="assets/sistemi/helm-chat-mob.jpg" width="647" height="1400" alt="" decoding="async" />
+              <img src="assets/lavori/calcolatore-ral.jpg" width="1600" height="900" alt="" decoding="async" />
+              <img src="assets/sistemi/casa-vacanze-mob.jpg" width="647" height="1400" alt="" decoding="async" />
+            </div>
+            <div class="muro-col">
+              <img src="assets/sistemi/casa-vacanze.jpg" width="1600" height="1000" alt="" decoding="async" />
+              <img src="assets/sistemi/helm-preventivi.jpg" width="1600" height="1000" alt="" decoding="async" />
+              <img src="assets/sistemi/helm-oggi-mob.jpg" width="647" height="1400" alt="" decoding="async" />
+              <img src="assets/lavori/centro-estetico.jpg" width="1600" height="900" alt="" decoding="async" />
+            </div>
+            <div class="muro-col">
+              <img src="assets/sistemi/helm-lavori-mob.jpg" width="647" height="1400" alt="" decoding="async" />
+              <img src="assets/sistemi/helm-conversazione.jpg" width="1600" height="1000" alt="" decoding="async" />
+              <img src="assets/sistemi/casa-vacanze.jpg" width="1600" height="1000" alt="" decoding="async" />
+              <img src="assets/sistemi/helm-clienti-mob.jpg" width="647" height="1400" alt="" decoding="async" />
+            </div>
+            <div class="muro-col">
+              <img src="assets/lavori/centro-estetico.jpg" width="1600" height="900" alt="" decoding="async" />
+              <img src="assets/sistemi/helm-preventivi-mob.jpg" width="647" height="1400" alt="" decoding="async" />
+              <img src="assets/sistemi/helm-oggi.jpg" width="1600" height="1000" alt="" decoding="async" />
+              <img src="assets/lavori/calcolatore-ral.jpg" width="1600" height="900" alt="" decoding="async" />
+            </div>
+            <div class="muro-col">
+              <img src="assets/sistemi/helm-conversazione.jpg" width="1600" height="1000" alt="" decoding="async" />
+              <img src="assets/sistemi/casa-vacanze-mob.jpg" width="647" height="1400" alt="" decoding="async" />
+              <img src="assets/sistemi/helm-preventivi.jpg" width="1600" height="1000" alt="" decoding="async" />
+              <img src="assets/sistemi/helm-chat-mob.jpg" width="647" height="1400" alt="" decoding="async" />
+            </div>
+          </div>
+        </div>
+        <div class="muro-velo" aria-hidden="true"></div>
+        <h2 class="muro-frasi" id="muro-title">
+          <span class="frase">Costruisco <em>sistemi</em>.</span>
+          <span class="frase">Che lavorano <em>da soli</em>.</span>
+          <span class="frase">Dal telefono del cliente <em>al pannello</em>.</span>
+        </h2>
+        <p class="muro-scorri" aria-hidden="true">Continua a scorrere <span>↓</span></p>
+      </div>
+    </section>
+
+    <!-- 4. La frase che si accende parola per parola -->
+    <section class="dichiara" aria-label="Chi sono">
+      <div class="wrap">
+        <p class="etichetta">Chi sono</p>
+        <p class="accende">Sono Simone, sviluppatore full stack. Costruisco software su misura e automazioni che lavorano da sole, dal database all'interfaccia. E resto anche dopo la consegna.</p>
+        <div class="dichiara-giu">
           <p>Lavoro con agenzie e studi, anche sotto il loro nome: il cliente resta vostro e la cifra è fissa, detta prima di partire.</p>
           <p>Valuto anche un posto in squadra come sviluppatore full stack, da remoto o in sede a Palermo.</p>
-          <a class="round round-ink magnet" href="#lavori"><span class="magnet-in">I lavori</span></a>
         </div>
       </div>
     </section>
 
-    <!-- Lavori: griglia come i migliori, ruolo e anno sotto ogni lavoro -->
-    <section class="work" id="lavori" aria-labelledby="lavori-title">
+    <!-- 5. Il mirino: Helm un passo alla volta, col telefono vero che cambia schermata -->
+    <section class="mirino" id="helm" aria-labelledby="helm-title">
+      <div class="wrap mirino-testa">
+        <p class="etichetta">Prodotto mio · Full stack, WhatsApp e AI · 2026</p>
+        <h2 class="titolo" id="helm-title">Helm manda avanti <em>una piccola azienda</em>.</h2>
+        <p class="mirino-intro">Un numero WhatsApp e un pannello per chi lavora sul campo: impiantisti, manutentori, tecnici. Helm risponde ai clienti, fissa gli appuntamenti e segue i preventivi da solo. Il titolare decide e non perde più niente.</p>
+      </div>
+
+      <div class="mirino-palco">
+        <div class="mirino-cornice" aria-hidden="true">
+          <span class="ang ang-1"></span><span class="ang ang-2"></span><span class="ang ang-3"></span><span class="ang ang-4"></span>
+          <p class="mir-rec"><span></span>REC</p>
+          <p class="mir-tc">00:00:00:00</p>
+          <p class="mir-bl">Helm · dati di prova</p>
+          <p class="mir-br"><span class="mir-n">01</span> / 04</p>
+        </div>
+
+        <div class="mirino-griglia">
+          <ol class="passi">
+            <li class="passo">
+              <p class="passo-n">01 · WhatsApp</p>
+              <h3 class="passo-parola">Risponde.</h3>
+              <p class="passo-testo">Risponde su WhatsApp come una persona dell'azienda. Usa il listino, trascrive i vocali e dice subito di essere un assistente automatico.</p>
+              <div class="passo-tel tel"><img src="assets/sistemi/helm-chat-mob.jpg" width="647" height="1400" loading="lazy" decoding="async" alt="Helm dal telefono: la chat col cliente e la risposta dell'assistente" /></div>
+            </li>
+            <li class="passo">
+              <p class="passo-n">02 · Oggi</p>
+              <h3 class="passo-parola">Ricorda.</h3>
+              <p class="passo-testo">Ogni mattina il titolare vede cosa c'è da fare, chi aspetta una risposta e i soldi fermi da incassare. Le urgenze stanno in cima.</p>
+              <div class="passo-tel tel"><img src="assets/sistemi/helm-oggi-mob.jpg" width="647" height="1400" loading="lazy" decoding="async" alt="Helm dal telefono, la schermata Oggi con le cose da fare e un'urgenza in cima" /></div>
+            </li>
+            <li class="passo">
+              <p class="passo-n">03 · Preventivi</p>
+              <h3 class="passo-parola">Preventiva.</h3>
+              <p class="passo-testo">Scrive il preventivo dalle parole del titolare. Il cliente lo apre e accetta col tasto, il titolare sa quando l'ha visto. Se il cliente tace, parte il richiamo.</p>
+              <div class="passo-tel tel"><img src="assets/sistemi/helm-preventivi-mob.jpg" width="647" height="1400" loading="lazy" decoding="async" alt="Helm dal telefono: quanto c'è in ballo nei preventivi, mandati, non visti e visti" /></div>
+            </li>
+            <li class="passo">
+              <p class="passo-n">04 · Lavori</p>
+              <h3 class="passo-parola">Organizza.</h3>
+              <p class="passo-testo">I lavori lunghi si dividono in fasi, ognuna con chi la fa e per quando. A lavoro finito il cliente firma il rapportino col dito sul telefono.</p>
+              <div class="passo-tel tel"><img src="assets/sistemi/helm-lavori-mob.jpg" width="647" height="1400" loading="lazy" decoding="async" alt="Helm dal telefono: i lavori da iniziare e in corso, con le fasi e chi li fa" /></div>
+            </li>
+          </ol>
+
+          <!-- Su computer un telefono solo, fermo, che cambia schermata a ogni passo -->
+          <div class="mirino-tel tel" aria-hidden="true">
+            <img src="assets/sistemi/helm-chat-mob.jpg" width="647" height="1400" loading="lazy" decoding="async" alt="" />
+            <img src="assets/sistemi/helm-oggi-mob.jpg" width="647" height="1400" loading="lazy" decoding="async" alt="" />
+            <img src="assets/sistemi/helm-preventivi-mob.jpg" width="647" height="1400" loading="lazy" decoding="async" alt="" />
+            <img src="assets/sistemi/helm-lavori-mob.jpg" width="647" height="1400" loading="lazy" decoding="async" alt="" />
+          </div>
+        </div>
+      </div>
+
+      <div class="wrap mirino-piede">
+        <ul class="prove">
+          <li><b data-count>234 test</b> automatici, tutti verdi</li>
+          <li><b>Più aziende</b> nello stesso sistema, dati separati</li>
+          <li><b>Ogni lunedì</b> il resoconto di quello che ha fatto da solo</li>
+        </ul>
+        <a class="freccia" href="#contatti">Chiedi una demo dal vivo <span aria-hidden="true">→</span></a>
+      </div>
+    </section>
+
+    <!-- 6. Gli altri lavori: schede grandi, poi i progetti piccoli con l'anteprima che segue il mouse -->
+    <section class="lavori" id="lavori" aria-labelledby="lavori-title">
       <div class="wrap">
-        <div class="work-head">
-          <h2 class="work-title" id="lavori-title">Lavori</h2>
-          <p class="work-note">Il mio prodotto, il sistema di un cliente e i progetti più piccoli. Ognuno si apre dal vivo.</p>
-        </div>
+        <p class="etichetta">Lavori</p>
+        <h2 class="titolo" id="lavori-title">Per un cliente, e <em>per provare</em>.</h2>
 
-        <div class="work-grid">
-          <article class="job job-wide" aria-labelledby="helm-name">
-            <div class="job-media tint-blue reveal">
-              <img src="assets/sistemi/helm-oggi.jpg" width="1600" height="1000" decoding="async" alt="Helm da computer, la schermata Oggi: le cose da fare, chi deve rispondere e i soldi da incassare" />
-              <span class="job-tag">Dati di prova</span>
-            </div>
-            <div class="job-body">
-              <h3 class="job-name" id="helm-name">Helm, il sistema che manda avanti una piccola azienda</h3>
-              <p class="job-meta"><span>Prodotto mio · Full stack, WhatsApp e AI</span><span>2026</span></p>
-              <p class="job-text">Un numero WhatsApp e un pannello per chi lavora sul campo: impiantisti, manutentori, tecnici. Helm risponde ai clienti, fissa gli appuntamenti e segue i preventivi da solo. Il titolare decide e non perde più niente.</p>
-              <ul class="job-feats">
-                <li><b>Risponde su WhatsApp come una persona dell'azienda.</b> Usa il listino, trascrive i vocali e dice subito di essere un assistente automatico.</li>
-                <li><b>Fissa, sposta e annulla gli appuntamenti.</b> Guarda l'agenda e il calendario del telefono, sceglie il tecnico libero e non prenota mai due volte lo stesso orario.</li>
-                <li><b>Scrive il preventivo dalle parole del titolare.</b> Parte un PDF con una pagina dove il cliente accetta col tasto. Quando la apre, il titolare riceve l'avviso. Se il cliente tace, parte il richiamo.</li>
-                <li><b>Chiude il lavoro con il rapportino.</b> Il cliente firma col dito sul telefono e la manutenzione fatta prepara da sola quella dell'anno dopo.</li>
-                <li><b>Lavora con tutta la squadra.</b> Titolare, ufficio e tecnici vedono solo la loro parte. I lavori lunghi si dividono in fasi, ognuna con chi la fa e per quando.</li>
-                <li><b>Il titolare gli parla come a un collega</b>, dal pannello o da WhatsApp. Ogni lunedì riceve il resoconto di quello che Helm ha fatto da solo.</li>
-              </ul>
-              <ul class="job-nums"><li><b data-count>234 test</b> automatici, tutti verdi</li><li><b>Più aziende</b> nello stesso sistema, dati separati</li></ul>
-              <a class="job-go" href="#contatti">Chiedi una demo dal vivo <span aria-hidden="true">→</span></a>
-            </div>
-          </article>
-
-          <article class="job">
-            <a class="job-link" href="https://casatolomea.it" target="_blank" rel="noopener">
-              <div class="job-media tint-sand reveal">
-                <img src="assets/sistemi/casa-vacanze.jpg" width="1600" height="1000" decoding="async" alt="Il sito della casa vacanze da computer: foto della casa e pulsante Verifica disponibilità" />
-              </div>
-              <h3 class="job-name">Sistema di prenotazione per una casa vacanze</h3>
-              <p class="job-meta"><span>Cliente · Sviluppo completo</span><span>2026</span></p>
-              <p class="job-text">Il canale diretto per una casa vacanze a Mondello: sito in quattro lingue, disponibilità collegate a Booking, nove email che partono da sole e il pannello del proprietario. In produzione da <b data-days-from="2026-07-06" data-count>112 giorni</b>.</p>
-              <p class="job-go">Guarda il sito dal vivo <span aria-hidden="true">↗</span><span class="sr"> (si apre in una nuova scheda)</span></p>
+        <div class="schede">
+          <article class="scheda">
+            <a href="https://casatolomea.it" target="_blank" rel="noopener">
+              <div class="scheda-media tint-sand"><img src="assets/sistemi/casa-vacanze.jpg" width="1600" height="1000" loading="lazy" decoding="async" alt="Il sito della casa vacanze da computer: foto della casa e pulsante Verifica disponibilità" /></div>
+              <ul class="tags"><li>Cliente</li><li>Sviluppo completo</li><li>2026</li></ul>
+              <h3 class="scheda-nome">Sistema di prenotazione per una casa vacanze</h3>
+              <p class="scheda-testo">Il canale diretto per una casa vacanze a Mondello: sito in quattro lingue, disponibilità collegate a Booking, nove email che partono da sole e il pannello del proprietario. In produzione da <b data-days-from="2026-07-06" data-count>116 giorni</b>.</p>
+              <p class="freccia">Guarda il sito dal vivo <span aria-hidden="true">↗</span><span class="sr"> (si apre in una nuova scheda)</span></p>
             </a>
           </article>
-
-          <article class="job">
-            <a class="job-link" href="https://simonetorregrossapa-maker.github.io/demo-estetica/" target="_blank" rel="noopener">
-              <div class="job-media tint-rose reveal">
-                <img src="assets/lavori/centro-estetico.jpg" width="1600" height="900" loading="lazy" decoding="async" alt="La demo del centro estetico: pagina con trattamenti e prenotazione" />
-              </div>
-              <h3 class="job-name">Automazioni per un centro estetico</h3>
-              <p class="job-meta"><span>Demo · Automazioni</span><span>2026</span></p>
-              <p class="job-text">Promemoria, disdette, lista d'attesa, richiesta di recensione e richiamo dei clienti inattivi, su regole che girano da sole.</p>
-              <p class="job-go">Apri la demo <span aria-hidden="true">↗</span><span class="sr"> (si apre in una nuova scheda)</span></p>
+          <article class="scheda">
+            <a href="https://simonetorregrossapa-maker.github.io/demo-estetica/" target="_blank" rel="noopener">
+              <div class="scheda-media tint-rose"><img src="assets/lavori/centro-estetico.jpg" width="1600" height="900" loading="lazy" decoding="async" alt="La demo del centro estetico: pagina con trattamenti e prenotazione" /></div>
+              <ul class="tags"><li>Demo</li><li>Automazioni</li><li>2026</li></ul>
+              <h3 class="scheda-nome">Automazioni per un centro estetico</h3>
+              <p class="scheda-testo">Promemoria, disdette, lista d'attesa, richiesta di recensione e richiamo dei clienti inattivi, su regole che girano da sole.</p>
+              <p class="freccia">Apri la demo <span aria-hidden="true">↗</span><span class="sr"> (si apre in una nuova scheda)</span></p>
             </a>
           </article>
-
         </div>
 
-        <ul class="more">
-          <li><a href="https://simonetorregrossapa-maker.github.io/calcolatore-ral/" target="_blank" rel="noopener"><span class="more-name">Calcolatore RAL 2026</span><span class="more-what">Web app, 158 test automatici</span><span class="more-go">Apri ↗</span></a></li>
-          <li><a href="https://github.com/simonetorregrossapa-maker/video-tool" target="_blank" rel="noopener"><span class="more-name">Montaggio video automatico</span><span class="more-what">Python, FFmpeg, Whisper</span><span class="more-go">Codice ↗</span></a></li>
-          <li><a href="https://github.com/simonetorregrossapa-maker/personalos" target="_blank" rel="noopener"><span class="more-name">Dashboard personale</span><span class="more-what">Next.js, Supabase</span><span class="more-go">Codice ↗</span></a></li>
-          <li><a href="https://torregrossa-barber.netlify.app" target="_blank" rel="noopener"><span class="more-name">Siti dimostrativi</span><span class="more-what">Barberia, fotografo, palestra</span><span class="more-go">Apri ↗</span></a></li>
+        <p class="etichetta piccoli-titolo">Progetti più piccoli</p>
+        <ul class="piccoli">
+          <li><a href="https://simonetorregrossapa-maker.github.io/calcolatore-ral/" target="_blank" rel="noopener" data-img="assets/lavori/calcolatore-ral.jpg"><span class="p-nome">Calcolatore RAL 2026</span><span class="p-cosa">Web app, 158 test automatici</span><span class="p-go">Apri ↗</span></a></li>
+          <li><a href="https://github.com/simonetorregrossapa-maker/video-tool" target="_blank" rel="noopener"><span class="p-nome">Montaggio video automatico</span><span class="p-cosa">Python, FFmpeg, Whisper</span><span class="p-go">Codice ↗</span></a></li>
+          <li><a href="https://github.com/simonetorregrossapa-maker/personalos" target="_blank" rel="noopener"><span class="p-nome">Dashboard personale</span><span class="p-cosa">Next.js, Supabase</span><span class="p-go">Codice ↗</span></a></li>
+          <li><a href="https://torregrossa-barber.netlify.app" target="_blank" rel="noopener"><span class="p-nome">Siti dimostrativi</span><span class="p-cosa">Barberia, fotografo, palestra</span><span class="p-go">Apri ↗</span></a></li>
         </ul>
       </div>
+      <div class="anteprima" aria-hidden="true"><img src="assets/lavori/calcolatore-ral.jpg" alt="" loading="lazy" /></div>
     </section>
 
-    <!-- Servizi: righe corte, con gli strumenti a destra -->
-    <section class="services" id="servizi" aria-labelledby="servizi-title">
-      <div class="wrap">
-        <div class="work-head">
-          <h2 class="work-title" id="servizi-title">Cosa faccio</h2>
-          <p class="work-note">Sono esempi, non confini. Se ti serve altro, scrivimi e ti dico subito se ci sto dentro.</p>
+    <!-- 7. Come lavoro: tre passi su un binario che si riempie scorrendo -->
+    <section class="binario" id="come" aria-labelledby="come-title">
+      <div class="binario-palco wrap">
+        <p class="etichetta">Come lavoro</p>
+        <h2 class="titolo" id="come-title">Prima ne parliamo.<br /><em>Poi lo costruisco.</em></h2>
+        <ol class="tappe">
+          <li class="tappa">
+            <p class="tappa-n">01</p>
+            <h3>Mi scrivi</h3>
+            <p>Cosa ti serve e per quando, in due righe. Ti rispondo con un primo parere entro un giorno lavorativo.</p>
+          </li>
+          <li class="tappa">
+            <p class="tappa-n">02</p>
+            <h3>Cifra fissa, prima di partire</h3>
+            <p>Ti dico cosa costruisco, in quanto tempo e quanto costa. Con le agenzie lavoro anche sotto il loro nome: il cliente resta vostro.</p>
+          </li>
+          <li class="tappa">
+            <p class="tappa-n">03</p>
+            <h3>Consegno e resto</h3>
+            <p>Test automatici sulle parti che contano, nessuna password scritta nel codice. Dopo la consegna ci sono ancora io.</p>
+          </li>
+        </ol>
+        <div class="linea" aria-hidden="true">
+          <div class="linea-piena"></div>
+          <span class="punto"></span><span class="punto"></span><span class="punto"></span>
         </div>
+      </div>
+
+      <div class="wrap cosa">
+        <h3 class="cosa-titolo">Cosa costruisco</h3>
         <ul class="svc-list">
-          <li class="svc"><h3>Applicazioni web e gestionali</h3><p>Aree riservate, dashboard e pannelli, con accessi separati per ogni utente o azienda.</p><p class="svc-tools">React · Next.js · TypeScript</p></li>
-          <li class="svc"><h3>Automazioni e WhatsApp</h3><p>Messaggi, email e promemoria che partono da soli al momento giusto. Risposte ai clienti e vocali trascritti.</p><p class="svc-tools">WhatsApp API di Meta · Resend · Twilio</p></li>
-          <li class="svc"><h3>Backend, API e database</h3><p>PostgreSQL con permessi riga per riga, API, funzioni server e lavori che girano a orario.</p><p class="svc-tools">Node.js · Supabase · PostgreSQL</p></li>
-          <li class="svc"><h3>Integrazioni e intelligenza artificiale</h3><p>Booking, Meta e servizi email collegati tra loro. Modelli AI che scrivono, classificano e trascrivono dentro il prodotto.</p><p class="svc-tools">API Anthropic · Gemini · Whisper · iCal</p></li>
+          <li class="svc"><h4>Applicazioni web e gestionali</h4><p>Aree riservate, dashboard e pannelli, con accessi separati per ogni utente o azienda.</p><p class="svc-tools">React · Next.js · TypeScript</p></li>
+          <li class="svc"><h4>Automazioni e WhatsApp</h4><p>Messaggi, email e promemoria che partono da soli al momento giusto. Risposte ai clienti e vocali trascritti.</p><p class="svc-tools">WhatsApp API di Meta · Resend · Twilio</p></li>
+          <li class="svc"><h4>Backend, API e database</h4><p>PostgreSQL con permessi riga per riga, API, funzioni server e lavori che girano a orario.</p><p class="svc-tools">Node.js · Supabase · PostgreSQL</p></li>
+          <li class="svc"><h4>Integrazioni e intelligenza artificiale</h4><p>Booking, Meta e servizi email collegati tra loro. Modelli AI che scrivono, classificano e trascrivono dentro il prodotto.</p><p class="svc-tools">API Anthropic · Gemini · Whisper · iCal</p></li>
         </ul>
-        <p class="svc-foot">Su ogni progetto: cifra fissa concordata prima, test automatici sulle parti che contano, nessuna password scritta nel codice.</p>
       </div>
     </section>
 
-    <!-- Contatti: la chiamata grande, come Snellenberg -->
+    <!-- 8. Chiusura: la chiamata grande, i contatti, il modulo e gli strumenti che scorrono -->
     <section class="contact" id="contatti" aria-labelledby="contatti-title">
       <div class="wrap">
-        <h2 class="contact-title" id="contatti-title"><span class="contact-mark" aria-hidden="true">ST</span><span>Lavoriamo</span> <span>insieme</span></h2>
+        <h2 class="contact-title" id="contatti-title"><span class="contact-mark" aria-hidden="true">ST</span><span>Lavoriamo</span> <em>insieme.</em></h2>
         <div class="contact-line">
           <a class="round round-blu magnet" href="mailto:simone.torregrossa.pa@gmail.com"><span class="magnet-in">Scrivimi</span></a>
         </div>
         <p class="contact-lede">Cosa ti serve e per quando, in due righe. Ti rispondo con un primo parere entro un giorno lavorativo.</p>
         <div class="contact-grid">
-        <ul class="contact-pills">
-          <li><a class="pill" href="mailto:simone.torregrossa.pa@gmail.com">simone.torregrossa.pa@gmail.com</a></li>
-          <li><a class="pill" href="https://www.linkedin.com/in/simonetorregrossa1234" target="_blank" rel="noopener">LinkedIn</a></li>
-          <li><a class="pill" href="https://github.com/simonetorregrossapa-maker" target="_blank" rel="noopener">GitHub</a></li>
-        </ul>
-        <form class="form" id="contact-form" action="https://api.web3forms.com/submit" method="POST" novalidate>
+          <ul class="contact-pills">
+            <li><a class="pill" href="mailto:simone.torregrossa.pa@gmail.com">simone.torregrossa.pa@gmail.com</a></li>
+            <li><a class="pill" href="https://www.linkedin.com/in/simonetorregrossa1234" target="_blank" rel="noopener">LinkedIn</a></li>
+            <li><a class="pill" href="https://github.com/simonetorregrossapa-maker" target="_blank" rel="noopener">GitHub</a></li>
+          </ul>
+          <form class="form" id="contact-form" action="https://api.web3forms.com/submit" method="POST" novalidate>
           <input type="hidden" name="access_key" value="b5f6e8c5-0296-4afb-b87f-23608b75e1dd" />
           <input type="hidden" name="subject" value="Nuovo messaggio dal sito, Simone Torregrossa" />
           <input type="hidden" name="from_name" value="Sito Simone Torregrossa" />
@@ -231,6 +346,14 @@
         </form>
         </div>
       </div>
+
+      <div class="nastro" aria-hidden="true">
+        <div class="nastro-track">
+          <span>React</span><span>Next.js</span><span>TypeScript</span><span>Node.js</span><span>Python</span><span>Supabase</span><span>PostgreSQL</span><span>WhatsApp API</span><span>Anthropic</span><span>Gemini</span><span>Whisper</span><span>Cloudflare</span>
+          <span>React</span><span>Next.js</span><span>TypeScript</span><span>Node.js</span><span>Python</span><span>Supabase</span><span>PostgreSQL</span><span>WhatsApp API</span><span>Anthropic</span><span>Gemini</span><span>Whisper</span><span>Cloudflare</span>
+        </div>
+      </div>
+
       <footer class="foot wrap">
         <div><span class="foot-k">Edizione</span><span>2026 ©</span></div>
         <div><span class="foot-k">Ora a Palermo</span><span id="clock">--:--</span></div>
@@ -238,6 +361,9 @@
     </section>
   </main>
 
-  <script src="script.js?v=20261030d" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/ScrollTrigger.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/lenis@1.3.4/dist/lenis.min.js" defer></script>
+  <script src="script.js?v=20261030g" defer></script>
 </body>
 </html>

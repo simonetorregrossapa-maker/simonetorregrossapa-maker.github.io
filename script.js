@@ -1,5 +1,6 @@
 /* Simone Torregrossa · portfolio
-   JavaScript senza dipendenze. */
+   Il movimento delle scene usa GSAP + ScrollTrigger e Lenis (caricati prima, da CDN).
+   Se non arrivano, o con movimento ridotto, la pagina resta ferma ma completa. */
 (function () {
   "use strict";
 
@@ -97,37 +98,6 @@
     }
   }
 
-  /* ---------- Frase grande: parole in maschera ---------- */
-  document.querySelectorAll(".split").forEach(function (el) {
-    var testo = el.textContent.trim();
-    el.setAttribute("aria-label", testo);
-    el.textContent = "";
-    testo.split(" ").forEach(function (parola, i) {
-      var w = document.createElement("span");
-      w.className = "w";
-      w.setAttribute("aria-hidden", "true");
-      var dentro = document.createElement("span");
-      dentro.textContent = parola;
-      dentro.style.setProperty("--i", i);
-      w.appendChild(dentro);
-      el.appendChild(w);
-      el.appendChild(document.createTextNode(" "));
-    });
-  });
-
-  /* ---------- Cose che si scoprono una volta, entrando nello schermo ---------- */
-  var daScoprire = document.querySelectorAll(".reveal, .split");
-  if (riduci || !vede) {
-    daScoprire.forEach(function (el) { el.classList.add("is-in"); });
-  } else {
-    var io = new IntersectionObserver(function (voci) {
-      voci.forEach(function (v) {
-        if (v.isIntersecting) { v.target.classList.add("is-in"); io.unobserve(v.target); }
-      });
-    }, { rootMargin: "0px 0px -12% 0px" });
-    daScoprire.forEach(function (el) { io.observe(el); });
-  }
-
   /* ---------- Numeri che contano da zero la prima volta che li vedi ---------- */
   var daContare = document.querySelectorAll("[data-count]");
   if (!riduci && vede && daContare.length) {
@@ -172,6 +142,207 @@
       });
     });
   }
+
+  /* ========== Le scene che si muovono scorrendo ========== */
+  (function film() {
+    /* ---------- Barra in alto: prende il fondo appena lasci l'apertura ---------- */
+    var barra = document.getElementById("barra");
+    if (barra) {
+      var segna = function () { barra.classList.toggle("is-giu", window.scrollY > 40); };
+      segna();
+      window.addEventListener("scroll", segna, { passive: true });
+    }
+  
+    /* ---------- La frase che si accende: ogni parola nel suo span ---------- */
+    var parole = [];
+    document.querySelectorAll(".accende").forEach(function (el) {
+      var testo = el.textContent.trim();
+      el.textContent = "";
+      var letto = document.createElement("span");
+      letto.className = "sr";
+      letto.textContent = testo;
+      var visto = document.createElement("span");
+      visto.setAttribute("aria-hidden", "true");
+      testo.split(" ").forEach(function (p) {
+        var w = document.createElement("span");
+        w.textContent = p;
+        visto.appendChild(w);
+        visto.appendChild(document.createTextNode(" "));
+        parole.push(w);
+      });
+      el.appendChild(letto);
+      el.appendChild(visto);
+    });
+  
+    /* ---------- Da qui in giù serve GSAP. Senza (o con movimento ridotto) la pagina resta ferma ma completa ---------- */
+    var g = window.gsap, ST = window.ScrollTrigger;
+    if (!g || !ST || riduci) return;
+    g.registerPlugin(ST);
+  
+    /* Scorrimento morbido: Lenis muove la pagina, ScrollTrigger lo segue a ogni fotogramma */
+    var lenis = null;
+    if (window.Lenis) {
+      lenis = new window.Lenis({ lerp: 0.1 });
+      lenis.on("scroll", ST.update);
+      g.ticker.add(function (t) { lenis.raf(t * 1000); });
+      g.ticker.lagSmoothing(0);
+      document.querySelectorAll('a[href^="#"]:not(.skip)').forEach(function (a) {
+        a.addEventListener("click", function (e) {
+          var id = a.getAttribute("href");
+          var dove = id.length > 1 ? document.querySelector(id) : null;
+          if (!dove) return;
+          e.preventDefault();
+          lenis.scrollTo(dove, { duration: 1.4 });
+        });
+      });
+    }
+  
+    var mm = g.matchMedia();
+  
+    /* ---------- 2. Il marchio: il bollino ST cresce fino a riempire lo schermo di blu ---------- */
+    var marchio = document.querySelector(".marchio");
+    if (marchio) {
+      var disco = marchio.querySelector(".marchio-disco");
+      var st = marchio.querySelector(".marchio-st");
+      var r0 = function () { return Math.min(window.innerWidth, window.innerHeight) * 0.075; };
+      var r1 = function () { return Math.hypot(window.innerWidth, window.innerHeight) / 2 + 4; };
+      var tlM = g.timeline({
+        scrollTrigger: { trigger: marchio, start: "top top", end: "+=90%", pin: true, scrub: 0.4, invalidateOnRefresh: true }
+      });
+      tlM.fromTo(disco,
+        { clipPath: function () { return "circle(" + r0() + "px at 50% 50%)"; } },
+        { clipPath: function () { return "circle(" + r1() + "px at 50% 50%)"; }, ease: "power2.inOut", duration: 1 }, 0)
+        /* La sigla parte grande quanto il bollino e cresce con lui */
+        .fromTo(st,
+          { scale: function () { return (r0() * 1.15) / st.offsetWidth; } },
+          { scale: 1, ease: "power2.inOut", duration: 1 }, 0)
+        .fromTo(".marchio-riga", { autoAlpha: 0, y: 16 }, { autoAlpha: 1, y: 0, duration: 0.25, ease: "power2.out" }, 0.75);
+    }
+  
+    /* ---------- 3. Il muro: le colonne scorrono in versi opposti, sopra le tre frasi si danno il cambio ---------- */
+    var muro = document.querySelector(".muro");
+    if (muro) {
+      muro.classList.add("is-film");
+      var frasi = g.utils.toArray(".muro .frase");
+      var tlW = g.timeline({
+        scrollTrigger: { trigger: muro, start: "top top", end: "+=240%", pin: true, scrub: 0.6 }
+      });
+      var lunga = frasi.length + 0.4;
+      g.utils.toArray(".muro-col").forEach(function (c, i) {
+        tlW.fromTo(c, { yPercent: i % 2 ? -8 : 6 }, { yPercent: i % 2 ? 8 : -16, ease: "none", duration: lunga }, 0);
+      });
+      tlW.fromTo(".muro-scena", { scale: 1.12 }, { scale: 1, ease: "none", duration: lunga }, 0);
+      g.set(frasi, { autoAlpha: 0, y: 60 });
+      frasi.forEach(function (f, i) {
+        tlW.to(f, { autoAlpha: 1, y: 0, duration: 0.3, ease: "power3.out" }, i + 0.1);
+        if (i < frasi.length - 1) tlW.to(f, { autoAlpha: 0, y: -60, duration: 0.3, ease: "power2.inOut" }, i + 0.75);
+      });
+      tlW.to(".muro-scorri", { autoAlpha: 0, duration: 0.2 }, frasi.length - 0.6);
+    }
+  
+    /* ---------- 4. La frase si accende parola per parola mentre scorri ---------- */
+    if (parole.length) {
+      g.fromTo(parole, { opacity: 0.16 }, {
+        opacity: 1, ease: "none", stagger: 0.1,
+        scrollTrigger: { trigger: ".accende", start: "top 78%", end: "bottom 48%", scrub: true }
+      });
+    }
+  
+    /* ---------- 5. Il mirino: su computer il palco si ferma e Helm si racconta in quattro passi ---------- */
+    mm.add("(min-width: 900px)", function () {
+      var sez = document.querySelector(".mirino");
+      if (!sez) return;
+      sez.classList.add("is-film");
+      var passi = g.utils.toArray(".mirino .passo");
+      var schermi = g.utils.toArray(".mirino-tel img");
+      var numero = sez.querySelector(".mir-n");
+      var tc = sez.querySelector(".mir-tc");
+      var due = function (n) { return (n < 10 ? "0" : "") + n; };
+      g.set(passi.slice(1), { autoAlpha: 0 });
+      g.set(schermi.slice(1), { autoAlpha: 0 });
+      var tl = g.timeline({
+        scrollTrigger: {
+          trigger: ".mirino-palco", start: "top top", end: "+=" + passi.length * 85 + "%", pin: true, scrub: 0.5,
+          onUpdate: function (s) {
+            /* Il contatore della telecamera segue lo scorrimento, il numero dice a che passo sei */
+            var fot = Math.round(s.progress * 24 * 25);
+            tc.textContent = "00:00:" + due(Math.floor(fot / 25)) + ":" + due(fot % 25);
+            var i = Math.max(0, Math.min(passi.length - 1, Math.floor(tl.time() - 0.15)));
+            numero.textContent = due(i + 1);
+          }
+        }
+      });
+      for (var i = 1; i < passi.length; i++) {
+        tl.to(passi[i - 1], { autoAlpha: 0, y: -40, duration: 0.3, ease: "power2.inOut" }, i)
+          .fromTo(passi[i], { autoAlpha: 0, y: 40 }, { autoAlpha: 1, y: 0, duration: 0.3, ease: "power3.out" }, i + 0.15)
+          .fromTo(schermi[i], { autoAlpha: 0, yPercent: 3 }, { autoAlpha: 1, yPercent: 0, duration: 0.35, ease: "power3.out" }, i + 0.05)
+          .to(schermi[i - 1], { autoAlpha: 0, duration: 0.3, ease: "none" }, i + 0.1);
+      }
+      tl.to({}, { duration: 0.6 });
+      return function () { sez.classList.remove("is-film"); };
+    });
+  
+    /* ---------- 7. Il binario: la linea si riempie e le tappe si accendono una dopo l'altra ---------- */
+    mm.add("(min-width: 861px)", function () {
+      var tappe = g.utils.toArray(".tappa");
+      var punti = g.utils.toArray(".punto");
+      if (!tappe.length) return;
+      g.set(tappe.slice(1), { opacity: 0.35 });
+      g.set(punti.slice(1), { scale: 0.5, opacity: 0.4 });
+      var tl = g.timeline({
+        scrollTrigger: { trigger: ".binario-palco", start: "center center", end: "+=110%", pin: true, scrub: 0.5 }
+      });
+      tl.fromTo(".linea-piena", { scaleX: 0 }, { scaleX: 1, ease: "none", duration: 3 }, 0);
+      for (var i = 1; i < tappe.length; i++) {
+        tl.to(tappe[i], { opacity: 1, duration: 0.25, ease: "power2.out" }, i + 0.4)
+          .to(punti[i], { scale: 1, opacity: 1, duration: 0.2, ease: "power2.out" }, i + 0.45);
+      }
+    });
+  
+    /* ---------- Entrate una volta sola: titoli, schede e righe salgono quando arrivano ---------- */
+    g.utils.toArray(".titolo, .mirino-intro, .dichiara-giu, .scheda, .piccoli li, .svc, .contact-title, .contact-lede").forEach(function (el) {
+      g.from(el, {
+        y: 36, autoAlpha: 0, duration: 0.9, ease: "power3.out",
+        scrollTrigger: { trigger: el, start: "top 88%", once: true }
+      });
+    });
+    /* Le schermate delle schede si scoprono dal basso, con un piccolo rientro dell'immagine */
+    g.utils.toArray(".scheda-media").forEach(function (m) {
+      var t = { trigger: m, start: "top 85%", once: true };
+      g.fromTo(m, { clipPath: "inset(100% 0% 0% 0%)" }, { clipPath: "inset(0% 0% 0% 0%)", duration: 1.1, ease: "power3.inOut", scrollTrigger: t });
+      g.fromTo(m.querySelector("img"), { scale: 1.12 }, { scale: 1, duration: 1.4, ease: "power3.out", clearProps: "transform", scrollTrigger: t });
+    });
+    /* Sul telefono i passi di Helm entrano uno alla volta */
+    mm.add("(max-width: 899px)", function () {
+      g.utils.toArray(".passo").forEach(function (p) {
+        g.from(p, { y: 40, autoAlpha: 0, duration: 0.9, ease: "power3.out", scrollTrigger: { trigger: p, start: "top 85%", once: true } });
+      });
+    });
+  
+    /* ---------- Progetti piccoli: l'anteprima segue il puntatore (solo con mouse) ---------- */
+    var ante = document.querySelector(".anteprima");
+    if (ante && puntatore) {
+      var anteImg = ante.querySelector("img");
+      g.set(ante, { yPercent: -50, scale: 0.92 });
+      var vaiX = g.quickTo(ante, "x", { duration: 0.45, ease: "power3" });
+      var vaiY = g.quickTo(ante, "y", { duration: 0.45, ease: "power3" });
+      var nascondi = function () { g.to(ante, { autoAlpha: 0, scale: 0.92, duration: 0.18, ease: "power2.out", overwrite: "auto" }); };
+      document.querySelectorAll(".piccoli a").forEach(function (a) {
+        a.addEventListener("pointerenter", function (e) {
+          var src = a.getAttribute("data-img");
+          if (!src) { nascondi(); return; }
+          if (anteImg.getAttribute("src") !== src) anteImg.setAttribute("src", src);
+          vaiX(e.clientX + 32); vaiY(e.clientY);
+          g.to(ante, { autoAlpha: 1, scale: 1, duration: 0.22, ease: "power3.out", overwrite: "auto" });
+        });
+        a.addEventListener("pointerleave", nascondi);
+      });
+      window.addEventListener("pointermove", function (e) { vaiX(e.clientX + 32); vaiY(e.clientY); }, { passive: true });
+    }
+  
+    /* Le immagini cambiano le altezze: a pagina caricata si rimisurano i punti di ogni scena */
+    window.addEventListener("load", function () { ST.refresh(); });
+  })();
 
   /* ---------- Modulo contatti: controllo dei campi e invio con Web3Forms ---------- */
   var form = document.getElementById("contact-form");
