@@ -300,17 +300,11 @@
     });
   
     /* ---------- Entrate una volta sola: titoli, schede e righe salgono quando arrivano ---------- */
-    g.utils.toArray(".titolo, .mirino-intro, .dichiara-giu, .scheda, .piccoli li, .svc, .contact-title, .contact-lede").forEach(function (el) {
+    g.utils.toArray(".titolo, .mirino-intro, .dichiara-giu, .voce, .finestra, .svc, .contact-title, .contact-lede").forEach(function (el) {
       g.from(el, {
         y: 36, autoAlpha: 0, duration: 0.9, ease: "power3.out",
         scrollTrigger: { trigger: el, start: "top 88%", once: true }
       });
-    });
-    /* Le schermate delle schede si scoprono dal basso, con un piccolo rientro dell'immagine */
-    g.utils.toArray(".scheda-media").forEach(function (m) {
-      var t = { trigger: m, start: "top 85%", once: true };
-      g.fromTo(m, { clipPath: "inset(100% 0% 0% 0%)" }, { clipPath: "inset(0% 0% 0% 0%)", duration: 1.1, ease: "power3.inOut", scrollTrigger: t });
-      g.fromTo(m.querySelector("img"), { scale: 1.12 }, { scale: 1, duration: 1.4, ease: "power3.out", clearProps: "transform", scrollTrigger: t });
     });
     /* Sul telefono i passi di Helm entrano uno alla volta */
     mm.add("(max-width: 899px)", function () {
@@ -319,29 +313,158 @@
       });
     });
   
-    /* ---------- Progetti piccoli: l'anteprima segue il puntatore (solo con mouse) ---------- */
-    var ante = document.querySelector(".anteprima");
-    if (ante && puntatore) {
-      var anteImg = ante.querySelector("img");
-      g.set(ante, { yPercent: -50, scale: 0.92 });
-      var vaiX = g.quickTo(ante, "x", { duration: 0.45, ease: "power3" });
-      var vaiY = g.quickTo(ante, "y", { duration: 0.45, ease: "power3" });
-      var nascondi = function () { g.to(ante, { autoAlpha: 0, scale: 0.92, duration: 0.18, ease: "power2.out", overwrite: "auto" }); };
-      document.querySelectorAll(".piccoli a").forEach(function (a) {
-        a.addEventListener("pointerenter", function (e) {
-          var src = a.getAttribute("data-img");
-          if (!src) { nascondi(); return; }
-          if (anteImg.getAttribute("src") !== src) anteImg.setAttribute("src", src);
-          vaiX(e.clientX + 32); vaiY(e.clientY);
-          g.to(ante, { autoAlpha: 1, scale: 1, duration: 0.22, ease: "power3.out", overwrite: "auto" });
-        });
-        a.addEventListener("pointerleave", nascondi);
-      });
-      window.addEventListener("pointermove", function (e) { vaiX(e.clientX + 32); vaiY(e.clientY); }, { passive: true });
-    }
-  
     /* Le immagini cambiano le altezze: a pagina caricata si rimisurano i punti di ogni scena */
     window.addEventListener("load", function () { ST.refresh(); });
+  })();
+
+  /* ========== 6. I lavori: l'indice sceglie, la finestra mostra il lavoro all'opera ========== */
+  (function indice() {
+    var box = document.querySelector(".indice");
+    if (!box) return;
+    var voci = [].slice.call(box.querySelectorAll(".voce"));
+    var scene = {};
+    box.querySelectorAll(".scena").forEach(function (s) { scene[s.getAttribute("data-scena")] = s; });
+    var vetro = box.querySelector(".finestra-vetro");
+    var url = box.querySelector(".finestra-url");
+    var dettaglio = box.querySelector(".dettaglio");
+    var g = window.gsap;
+    var anima = !!g && !riduci;
+    var stretto = window.matchMedia("(max-width: 899px)");
+    var attiva = null, film = null, inVista = true;
+
+    /* Ogni scena è un piccolo film in loop. Senza GSAP, o con movimento ridotto, resta la composizione ferma e completa */
+    var sposta = function (s) {
+      var p = s.querySelector(".pagina");
+      return function () { return -Math.max(0, p.offsetHeight - vetro.offsetHeight); };
+    };
+    var sale = function () { return { autoAlpha: 0, y: 8 }; };
+    var registi = {
+      casa: function (s, tl) {
+        var p = s.querySelector(".pagina"), c = s.querySelector(".cursore"), a = s.querySelectorAll(".avvisi li");
+        tl.set(a, sale()).set(p, { y: 0 })
+          .fromTo(c, { autoAlpha: 0, x: 90, y: 70 }, { autoAlpha: 1, x: 0, y: 0, duration: 1.1, ease: "power3.out" }, 0.4)
+          .to(c, { scale: 0.8, duration: 0.12, ease: "power2.out" }, 1.6)
+          .to(c, { scale: 1, duration: 0.25, ease: "power2.out" }, 1.72)
+          .to(a[0], { autoAlpha: 1, y: 0, duration: 0.45, ease: "power3.out" }, 1.9)
+          .to(c, { autoAlpha: 0, duration: 0.3 }, 2.4)
+          .to(p, { y: sposta(s), duration: 4.6, ease: "power2.inOut" }, 2.7)
+          .to(a[1], { autoAlpha: 1, y: 0, duration: 0.45, ease: "power3.out" }, 4.3)
+          .to(a[2], { autoAlpha: 1, y: 0, duration: 0.45, ease: "power3.out" }, 5.8)
+          .to(a, { autoAlpha: 0, y: 8, duration: 0.3, stagger: 0.06, ease: "power2.out" }, 9.2)
+          .to(p, { y: 0, duration: 1.6, ease: "power3.inOut" }, 9.4);
+      },
+      estetica: function (s, tl) {
+        var p = s.querySelector(".pagina"), a = s.querySelectorAll(".avvisi li");
+        tl.set(a, sale()).set(p, { y: 0 })
+          .to(p, { y: sposta(s), duration: 8.5, ease: "power1.inOut" }, 0.6)
+          .to(a[0], { autoAlpha: 1, y: 0, duration: 0.45, ease: "power3.out" }, 1.4)
+          .to(a[1], { autoAlpha: 1, y: 0, duration: 0.45, ease: "power3.out" }, 3.8)
+          .to(a[2], { autoAlpha: 1, y: 0, duration: 0.45, ease: "power3.out" }, 6.2)
+          .to(a, { autoAlpha: 0, y: 8, duration: 0.3, stagger: 0.06, ease: "power2.out" }, 9.8)
+          .to(p, { y: 0, duration: 1.6, ease: "power3.inOut" }, 10);
+      },
+      video: function (s, tl) {
+        var r = s.querySelectorAll(".t-riga");
+        tl.set(r, { autoAlpha: 0 })
+          .fromTo(r[0], { autoAlpha: 1, clipPath: "inset(0 100% 0 0)" }, { clipPath: "inset(0 0% 0 0)", duration: 1.1, ease: "steps(22)" }, 0.4);
+        for (var i = 1; i < r.length; i++) {
+          tl.fromTo(r[i], { autoAlpha: 0, x: -6 }, { autoAlpha: 1, x: 0, duration: 0.35, ease: "power2.out" }, 1.4 + i * 0.75);
+        }
+        tl.to(r, { autoAlpha: 0, duration: 0.3, ease: "power2.out" }, "+=2.6");
+      },
+      dashboard: function (s, tl) {
+        var t = s.querySelectorAll(".app-scritto"), f = s.querySelectorAll(".app-campo");
+        var salvato = s.querySelector(".app-salvato"), risposta = s.querySelector(".app-risposta");
+        tl.set([salvato, risposta, f[1]], { autoAlpha: 0 })
+          .fromTo(t[0], { clipPath: "inset(0 100% 0 0)" }, { clipPath: "inset(0 0% 0 0)", duration: 2.2, ease: "steps(40)" }, 0.4)
+          .fromTo(salvato, { autoAlpha: 0, y: 10, scale: 0.97 }, { autoAlpha: 1, y: 0, scale: 1, duration: 0.5, ease: "power3.out" }, 3)
+          .to(f[1], { autoAlpha: 1, duration: 0.3 }, 4)
+          .fromTo(t[1], { clipPath: "inset(0 100% 0 0)" }, { clipPath: "inset(0 0% 0 0)", duration: 1.3, ease: "steps(26)" }, 4.2)
+          .fromTo(risposta, { autoAlpha: 0, y: 10, scale: 0.97 }, { autoAlpha: 1, y: 0, scale: 1, duration: 0.5, ease: "power3.out" }, 5.9)
+          .to([salvato, risposta, f[1]], { autoAlpha: 0, duration: 0.35, ease: "power2.out" }, 9.4)
+          .set(t, { clipPath: "inset(0 100% 0 0)" });
+      }
+    };
+    /* Le pagine dei siti scorrono giù e tornano su */
+    var scorre = function (s, tl) {
+      var p = s.querySelector(".pagina");
+      tl.set(p, { y: 0 })
+        .to(p, { y: sposta(s), duration: 6.5, ease: "power1.inOut" }, 0.8)
+        .to(p, { y: 0, duration: 1.6, ease: "power3.inOut" }, "+=1.4");
+    };
+
+    var gira = function (nome) {
+      if (film) { film.kill(); film = null; }
+      if (!anima) return;
+      var s = scene[nome];
+      film = g.timeline({ repeat: -1, repeatDelay: 0.4, paused: !inVista });
+      (registi[nome] || scorre)(s, film);
+    };
+
+    var scegli = function (nome, primo) {
+      if (nome === attiva) return;
+      var prima = attiva ? scene[attiva] : null;
+      attiva = nome;
+      voci.forEach(function (v) {
+        var on = v.getAttribute("data-scena") === nome;
+        v.classList.toggle("is-on", on);
+        v.querySelector(".voce-testa").setAttribute("aria-pressed", on ? "true" : "false");
+        if (on && dettaglio) {
+          dettaglio.innerHTML = v.querySelector(".voce-corpo").innerHTML;
+          if (anima && !primo) g.fromTo(dettaglio, { autoAlpha: 0, y: 6 }, { autoAlpha: 1, y: 0, duration: 0.25, ease: "power3.out" });
+        }
+      });
+      var s = scene[nome];
+      url.textContent = s.getAttribute("data-url");
+      s.classList.add("is-on");
+      s.style.zIndex = 2;
+      if (prima) prima.style.zIndex = 1;
+      var chiudi = function () { if (prima && prima !== scene[attiva]) prima.classList.remove("is-on"); if (prima) prima.style.zIndex = ""; };
+      /* La scena nuova scende come una tendina sopra la vecchia */
+      if (anima && prima) {
+        g.fromTo(s, { clipPath: "inset(0% 0% 100% 0%)" }, { clipPath: "inset(0% 0% 0% 0%)", duration: 0.45, ease: "power3.out", overwrite: true, onComplete: chiudi });
+      } else chiudi();
+      gira(nome);
+    };
+
+    /* Computer: si sceglie passando sopra (con un attimo di attesa, così attraversare la lista non fa lampeggiare), col clic o con la tastiera */
+    voci.forEach(function (v) {
+      var nome = v.getAttribute("data-scena"), testa = v.querySelector(".voce-testa"), attesa = null;
+      testa.addEventListener("click", function () { scegli(nome); });
+      testa.addEventListener("focus", function () { if (!stretto.matches) scegli(nome); });
+      if (puntatore) {
+        testa.addEventListener("pointerenter", function () { attesa = setTimeout(function () { scegli(nome); }, 90); });
+        testa.addEventListener("pointerleave", function () { clearTimeout(attesa); });
+      }
+    });
+
+    /* Telefono: la voce che passa a metà schermo sceglie la scena */
+    if (vede) {
+      var guarda = new IntersectionObserver(function (righe) {
+        if (!stretto.matches) return;
+        righe.forEach(function (r) { if (r.isIntersecting) scegli(r.target.getAttribute("data-scena")); });
+      }, { rootMargin: "-58% 0px -40% 0px" });
+      voci.forEach(function (v) { guarda.observe(v); });
+
+      /* Il film gira solo quando la finestra si vede */
+      new IntersectionObserver(function (e) {
+        inVista = e[0].isIntersecting;
+        if (film) inVista ? film.play() : film.pause();
+      }).observe(vetro);
+    }
+
+    /* Un'immagine arrivata dopo cambia l'altezza della pagina: se è quella in scena, si rifà il film */
+    box.querySelectorAll(".pagina img").forEach(function (im) {
+      im.addEventListener("load", function () { if (attiva && scene[attiva].contains(im)) gira(attiva); });
+    });
+
+    /* Le altezze delle pagine cambiano col ridimensionamento: si rifà il film della scena attiva */
+    var rifai = null;
+    window.addEventListener("resize", function () { clearTimeout(rifai); rifai = setTimeout(function () { if (attiva) gira(attiva); }, 200); });
+
+    var iniziale = (voci[0] && voci[0].getAttribute("data-scena")) || "casa";
+    box.querySelectorAll(".scena.is-on").forEach(function (s) { s.classList.remove("is-on"); });
+    scegli(iniziale, true);
   })();
 
   /* ---------- Modulo contatti: controllo dei campi e invio con Web3Forms ---------- */

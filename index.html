@@ -27,7 +27,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400..700&family=Geist+Mono:wght@400..600&family=Instrument+Serif:ital@0;1&display=swap" />
-  <link rel="stylesheet" href="styles.css?v=20261030h" />
+  <link rel="stylesheet" href="styles.css?v=20261031c" />
   <script>document.documentElement.classList.add("js");</script>
   <script type="application/ld+json">
   {
@@ -223,42 +223,148 @@
       </div>
     </section>
 
-    <!-- 6. Gli altri lavori: schede grandi, poi i progetti piccoli con l'anteprima che segue il mouse -->
+    <!-- 6. Gli altri lavori: un indice a sinistra, una finestra viva a destra che mostra il lavoro all'opera.
+         Sul telefono la finestra resta in alto e cambia scena mentre scorri la lista. -->
     <section class="lavori" id="lavori" aria-labelledby="lavori-title">
       <div class="wrap">
         <p class="etichetta">Lavori</p>
         <h2 class="titolo" id="lavori-title">Per un cliente, e <em>per provare</em>.</h2>
 
-        <div class="schede">
-          <article class="scheda">
-            <a href="https://casatolomea.it" target="_blank" rel="noopener">
-              <div class="scheda-media tint-sand"><img src="assets/sistemi/casa-vacanze.jpg" width="1600" height="1000" loading="lazy" decoding="async" alt="Il sito della casa vacanze da computer: foto della casa e pulsante Verifica disponibilità" /></div>
-              <ul class="tags"><li>Cliente</li><li>Sviluppo completo</li><li>2026</li></ul>
-              <h3 class="scheda-nome">Sistema di prenotazione per una casa vacanze</h3>
-              <p class="scheda-testo">Il canale diretto per una casa vacanze a Mondello: sito in quattro lingue, disponibilità collegate a Booking, nove email che partono da sole e il pannello del proprietario. In produzione da <b data-days-from="2026-07-06" data-count>116 giorni</b>.</p>
-              <p class="freccia">Guarda il sito dal vivo <span aria-hidden="true">↗</span><span class="sr"> (si apre in una nuova scheda)</span></p>
-            </a>
-          </article>
-          <article class="scheda">
-            <a href="https://simonetorregrossapa-maker.github.io/demo-estetica/" target="_blank" rel="noopener">
-              <div class="scheda-media tint-rose"><img src="assets/lavori/centro-estetico.jpg" width="1600" height="900" loading="lazy" decoding="async" alt="La demo del centro estetico: pagina con trattamenti e prenotazione" /></div>
-              <ul class="tags"><li>Demo</li><li>Automazioni</li><li>2026</li></ul>
-              <h3 class="scheda-nome">Automazioni per un centro estetico</h3>
-              <p class="scheda-testo">Promemoria, disdette, lista d'attesa, richiesta di recensione e richiamo dei clienti inattivi, su regole che girano da sole.</p>
-              <p class="freccia">Apri la demo <span aria-hidden="true">↗</span><span class="sr"> (si apre in una nuova scheda)</span></p>
-            </a>
-          </article>
-        </div>
+        <div class="indice">
+          <div class="finestra" aria-hidden="true">
+            <div class="finestra-barra">
+              <span class="finestra-luci"><i></i><i></i><i></i></span>
+              <span class="finestra-url">sito del cliente</span>
+            </div>
+            <div class="finestra-vetro">
 
-        <p class="etichetta piccoli-titolo">Progetti più piccoli</p>
-        <ul class="piccoli">
-          <li><a href="https://simonetorregrossapa-maker.github.io/calcolatore-ral/" target="_blank" rel="noopener" data-img="assets/lavori/calcolatore-ral.jpg"><span class="p-nome">Calcolatore RAL 2026</span><span class="p-cosa">Web app, 158 test automatici</span><span class="p-go">Apri ↗</span></a></li>
-          <li><a href="https://github.com/simonetorregrossapa-maker/video-tool" target="_blank" rel="noopener"><span class="p-nome">Montaggio video automatico</span><span class="p-cosa">Python, FFmpeg, Whisper</span><span class="p-go">Codice ↗</span></a></li>
-          <li><a href="https://github.com/simonetorregrossapa-maker/personalos" target="_blank" rel="noopener"><span class="p-nome">Dashboard personale</span><span class="p-cosa">Next.js, Supabase</span><span class="p-go">Codice ↗</span></a></li>
-          <li><a href="https://torregrossa-barber.netlify.app" target="_blank" rel="noopener"><span class="p-nome">Siti dimostrativi</span><span class="p-cosa">Barberia, fotografo, palestra</span><span class="p-go">Apri ↗</span></a></li>
-        </ul>
+              <!-- Casa vacanze: il cursore preme "Verifica disponibilità", la pagina scorre, partono le notifiche -->
+              <div class="scena is-on" data-scena="casa" data-url="sito del cliente">
+                <div class="pagina"><img src="assets/lavori/casa-lungo.webp" width="960" height="1575" alt="" decoding="async" />
+                  <span class="cursore" style="--x: 12.5%; --y: 25.3%"></span>
+                </div>
+                <ul class="avvisi">
+                  <li>Date lette dal calendario di Booking</li>
+                  <li>Richiesta arrivata al proprietario</li>
+                  <li>Email all'ospite, partita da sola</li>
+                </ul>
+              </div>
+
+              <!-- Centro estetico: le regole che girano da sole, una notifica alla volta -->
+              <div class="scena" data-scena="estetica" data-url="demo · centro estetico">
+                <div class="pagina"><img src="assets/lavori/estetica-lungo.webp" width="960" height="2250" alt="" loading="lazy" decoding="async" /></div>
+                <ul class="avvisi avvisi-alto">
+                  <li><b>Promemoria</b> per l'appuntamento di domani</li>
+                  <li><b>Disdetta</b>: posto offerto alla lista d'attesa</li>
+                  <li><b>Recensione</b> chiesta dopo il trattamento</li>
+                </ul>
+              </div>
+
+              <div class="scena" data-scena="ral" data-url="calcolatore-ral">
+                <div class="pagina"><img src="assets/lavori/ral-lungo.webp" width="960" height="1800" alt="" loading="lazy" decoding="async" /></div>
+              </div>
+
+              <!-- Montaggio video: i passi veri dello strumento (README di video-tool) -->
+              <div class="scena scena-terminale" data-scena="video" data-url="video-tool · zsh">
+                <pre class="terminale"><span class="t-riga t-cmd"><b>$</b> ./monta.sh girato.mov</span><span class="t-riga">→ trascrivo con Whisper, parola per parola</span><span class="t-riga">→ trovo silenzi, ripartenze ed esitazioni</span><span class="t-riga">→ tengo la ripresa buona delle frasi rifatte</span><span class="t-riga">→ scrivo e stampo i sottotitoli</span><span class="t-riga">→ elenco i punti da riascoltare</span><span class="t-riga t-ok">✓ girato_PRONTO.mp4</span></pre>
+              </div>
+
+              <!-- Dashboard: appunto in italiano normale, poi la risposta con la fonte. Dati di esempio. -->
+              <div class="scena scena-app" data-scena="dashboard" data-url="dashboard · dati di esempio">
+                <div class="app">
+                  <p class="app-campo"><span class="app-scritto">Richiamare Luca martedì per il preventivo</span></p>
+                  <div class="app-scheda app-salvato">
+                    <p class="app-tipo">Richiamo</p>
+                    <p class="app-cosa">Luca · preventivo</p>
+                    <p class="app-quando">martedì</p>
+                  </div>
+                  <p class="app-campo app-domanda"><span class="app-scritto">Quando devo richiamare Luca?</span></p>
+                  <div class="app-scheda app-risposta">
+                    <p class="app-cosa">Martedì, per il preventivo.</p>
+                    <p class="app-fonte">Fonte: il tuo appunto di oggi</p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="scena" data-scena="siti" data-url="apex-palestra.netlify.app">
+                <div class="pagina"><img src="assets/lavori/palestra-lungo.webp" width="960" height="2700" alt="" loading="lazy" decoding="async" /></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Il dettaglio del lavoro scelto (computer): copiato dalla voce attiva -->
+          <div class="dettaglio" aria-live="polite"></div>
+
+          <ul class="voci">
+            <li class="voce is-on" data-scena="casa">
+              <button class="voce-testa" type="button" aria-pressed="true">
+                <span class="voce-nome">Sistema di prenotazione per una casa vacanze</span>
+                <span class="voce-meta">Cliente · 2026</span>
+              </button>
+              <div class="voce-corpo">
+                <ul class="tags"><li>Cliente</li><li>Sviluppo completo</li><li>In produzione</li></ul>
+                <p class="voce-testo">Il canale diretto per una casa vacanze a Mondello: sito in quattro lingue, disponibilità collegate a Booking, nove email che partono da sole e il pannello del proprietario. In produzione da <b data-days-from="2026-07-06" data-count>116 giorni</b>.</p>
+                <a class="freccia" href="https://casatolomea.it" target="_blank" rel="noopener">Guarda il sito dal vivo <span aria-hidden="true">↗</span><span class="sr"> (si apre in una nuova scheda)</span></a>
+              </div>
+            </li>
+            <li class="voce" data-scena="estetica">
+              <button class="voce-testa" type="button" aria-pressed="false">
+                <span class="voce-nome">Automazioni per un centro estetico</span>
+                <span class="voce-meta">Demo · 2026</span>
+              </button>
+              <div class="voce-corpo">
+                <ul class="tags"><li>Demo</li><li>Automazioni</li><li>Supabase</li></ul>
+                <p class="voce-testo">Promemoria, disdette, lista d'attesa, richiesta di recensione e richiamo dei clienti inattivi, su regole che girano da sole.</p>
+                <a class="freccia" href="https://simonetorregrossapa-maker.github.io/demo-estetica/" target="_blank" rel="noopener">Apri la demo <span aria-hidden="true">↗</span><span class="sr"> (si apre in una nuova scheda)</span></a>
+              </div>
+            </li>
+            <li class="voce" data-scena="ral">
+              <button class="voce-testa" type="button" aria-pressed="false">
+                <span class="voce-nome">Calcolatore RAL 2026</span>
+                <span class="voce-meta">Web app · 2026</span>
+              </button>
+              <div class="voce-corpo">
+                <ul class="tags"><li>Web app</li><li>158 test automatici</li></ul>
+                <p class="voce-testo">Dalla retribuzione lorda al netto in busta, riga per riga: contributi, IRPEF a scaglioni, detrazioni e addizionali, con il metodo spiegato in chiaro.</p>
+                <a class="freccia" href="https://simonetorregrossapa-maker.github.io/calcolatore-ral/" target="_blank" rel="noopener">Apri il calcolatore <span aria-hidden="true">↗</span><span class="sr"> (si apre in una nuova scheda)</span></a>
+              </div>
+            </li>
+            <li class="voce" data-scena="video">
+              <button class="voce-testa" type="button" aria-pressed="false">
+                <span class="voce-nome">Montaggio video automatico</span>
+                <span class="voce-meta">Strumento · Python</span>
+              </button>
+              <div class="voce-corpo">
+                <ul class="tags"><li>Python</li><li>FFmpeg</li><li>Whisper</li></ul>
+                <p class="voce-testo">Prende un video girato senza tagli e restituisce un MP4 più corto e sottotitolato: toglie pause, ripartenze ed esitazioni e segnala i punti da riascoltare.</p>
+                <a class="freccia" href="https://github.com/simonetorregrossapa-maker/video-tool" target="_blank" rel="noopener">Guarda il codice <span aria-hidden="true">↗</span><span class="sr"> (si apre in una nuova scheda)</span></a>
+              </div>
+            </li>
+            <li class="voce" data-scena="dashboard">
+              <button class="voce-testa" type="button" aria-pressed="false">
+                <span class="voce-nome">Dashboard personale</span>
+                <span class="voce-meta">Strumento · Next.js</span>
+              </button>
+              <div class="voce-corpo">
+                <ul class="tags"><li>Next.js</li><li>Supabase</li><li>API Anthropic</li></ul>
+                <p class="voce-testo">Contatti, richiami, calendario e conti in un solo pannello. Accetta appunti scritti in italiano normale e quando ritrova un'informazione dice da dove viene.</p>
+                <a class="freccia" href="https://github.com/simonetorregrossapa-maker/personalos" target="_blank" rel="noopener">Guarda il codice <span aria-hidden="true">↗</span><span class="sr"> (si apre in una nuova scheda)</span></a>
+              </div>
+            </li>
+            <li class="voce" data-scena="siti">
+              <button class="voce-testa" type="button" aria-pressed="false">
+                <span class="voce-nome">Siti dimostrativi</span>
+                <span class="voce-meta">Demo · 2026</span>
+              </button>
+              <div class="voce-corpo">
+                <ul class="tags"><li>Palestra</li><li>Fotografo</li><li>Barberia</li></ul>
+                <p class="voce-testo">Siti di prova per attività del posto, ognuno con il suo carattere. Quello della palestra ha i corsi, la tabella degli orari, gli abbonamenti e la prova gratuita da prenotare.</p>
+                <a class="freccia" href="https://apex-palestra.netlify.app" target="_blank" rel="noopener">Apri la palestra <span aria-hidden="true">↗</span><span class="sr"> (si apre in una nuova scheda)</span></a>
+              </div>
+            </li>
+          </ul>
+        </div>
       </div>
-      <div class="anteprima" aria-hidden="true"><img src="assets/lavori/calcolatore-ral.jpg" alt="" loading="lazy" /></div>
     </section>
 
     <!-- 7. Come lavoro: tre passi su un binario che si riempie scorrendo -->
@@ -364,6 +470,6 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js" defer></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/ScrollTrigger.min.js" defer></script>
   <script src="https://cdn.jsdelivr.net/npm/lenis@1.3.4/dist/lenis.min.js" defer></script>
-  <script src="script.js?v=20261030g" defer></script>
+  <script src="script.js?v=20261031c" defer></script>
 </body>
 </html>

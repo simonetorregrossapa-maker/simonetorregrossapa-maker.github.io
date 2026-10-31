@@ -217,43 +217,124 @@ em { font-style: italic; }
 .mirino-piede .freccia { margin-top: 0; }
 @media (hover: hover) and (pointer: fine) { .mirino-piede .freccia:hover span { transform: translateX(4px); } }
 
-/* ---------- 6. Altri lavori ---------- */
-.lavori { padding: clamp(110px, 14vw, 200px) 0 clamp(80px, 10vw, 140px); }
-.schede { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(48px, 5vw, 64px) clamp(24px, 3.4vw, 48px); margin-top: clamp(48px, 6vw, 90px); }
-.scheda:nth-child(2) { margin-top: clamp(0px, 10vw, 150px); }
-@media (max-width: 820px) { .schede { grid-template-columns: 1fr; } .scheda:nth-child(2) { margin-top: 0; } }
-.scheda a { display: block; }
-.scheda-media { position: relative; aspect-ratio: 5 / 4; border-radius: 18px; overflow: hidden; display: grid; place-items: center; padding: 9% 8%; }
-.tint-sand { background: #ece6dc; }
-.tint-rose { background: #f0e5e3; }
-.scheda-media img {
-  width: 100%; height: 100%; object-fit: cover; object-position: top; border-radius: 8px;
-  box-shadow: 0 1px 2px rgba(16, 24, 40, 0.06), 0 24px 48px -20px rgba(16, 24, 40, 0.3);
-  transition: transform 500ms var(--ease-out);
+/* ---------- 6. Altri lavori: l'indice e la finestra viva ---------- */
+.lavori { padding: clamp(110px, 14vw, 200px) 0 clamp(70px, 8vw, 120px); }
+.indice {
+  display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+  grid-template-areas: "voci finestra" "voci dettaglio";
+  grid-template-rows: auto 1fr;
+  column-gap: clamp(32px, 5vw, 80px); align-items: start;
+  margin-top: clamp(40px, 5vw, 72px);
 }
-.tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 22px; }
-.tags li { font: 500 11.5px/1 var(--mono); text-transform: uppercase; letter-spacing: 0.08em; color: var(--ink-2); padding: 7px 10px; border: 1px solid var(--line-2); border-radius: 999px; }
-.scheda-nome { margin-top: 18px; font-family: var(--serif); font-weight: 400; font-size: clamp(32px, 3.3vw, 50px); line-height: 1.02; letter-spacing: -0.015em; }
-.scheda-testo { margin-top: 14px; color: var(--ink-3); font-size: 16px; max-width: 54ch; }
-.scheda-testo b { color: var(--ink); font-weight: 600; font-variant-numeric: tabular-nums; }
-@media (hover: hover) and (pointer: fine) { .scheda a:hover .scheda-media img { transform: scale(1.035); } }
 
-.piccoli-titolo { margin-top: clamp(90px, 11vw, 150px); }
-.piccoli { margin-top: 18px; border-top: 1px solid var(--line-2); }
-.piccoli li { border-bottom: 1px solid var(--line); }
-.piccoli a { display: grid; grid-template-columns: 1.4fr 1fr auto; gap: 16px; align-items: baseline; padding: 26px 0; }
-.p-nome { font-family: var(--serif); font-size: clamp(26px, 2.6vw, 38px); line-height: 1.1; transition: transform 240ms var(--ease-out); }
-.p-cosa { color: var(--ink-3); font-size: 15.5px; }
-.p-go { color: var(--blu); font-weight: 500; font-size: 15.5px; }
-@media (hover: hover) and (pointer: fine) { .piccoli a:hover .p-nome { transform: translateX(14px); } }
-@media (max-width: 640px) { .piccoli a { grid-template-columns: 1fr auto; } .p-cosa { grid-column: 1; grid-row: 2; } .p-go { grid-row: 1 / span 2; align-self: center; } }
-/* L'anteprima che segue il puntatore sulla lista (solo con mouse) */
-.anteprima {
-  position: fixed; left: 0; top: 0; z-index: 15; width: 340px; aspect-ratio: 16 / 9; border-radius: 12px; overflow: hidden;
-  pointer-events: none; visibility: hidden; opacity: 0;
-  box-shadow: 0 30px 60px -24px rgba(16, 24, 40, 0.45);
+/* L'elenco: righe grandi, grigie finché non le scegli */
+.voci { grid-area: voci; border-top: 1px solid var(--line-2); }
+.voce { border-bottom: 1px solid var(--line); }
+.voce-testa {
+  position: relative; display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: baseline; gap: 16px;
+  width: 100%; padding: 22px 0; margin: 0; border: 0; background: none; color: inherit; font: inherit; text-align: left; cursor: pointer;
 }
-.anteprima img { width: 100%; height: 100%; object-fit: cover; object-position: top; }
+.voce-testa::before {
+  content: ""; position: absolute; left: 0; top: 50%; width: 8px; height: 8px; margin-top: -4px; border-radius: 50%;
+  background: var(--blu); opacity: 0; transform: scale(0.4);
+  transition: opacity 200ms ease, transform 300ms var(--ease-out);
+}
+.voce-nome {
+  font-family: var(--serif); font-size: clamp(26px, 2.5vw, 38px); line-height: 1.08; letter-spacing: -0.01em;
+  color: #8a93a2; transition: color 220ms ease, transform 300ms var(--ease-out);
+}
+.voce-meta { color: var(--ink-3); font-size: 14px; white-space: nowrap; font-variant-numeric: tabular-nums; }
+.voce.is-on .voce-nome { color: var(--ink); transform: translateX(22px); }
+.voce.is-on .voce-testa::before { opacity: 1; transform: scale(1); }
+@media (hover: hover) and (pointer: fine) { .voce:not(.is-on) .voce-testa:hover .voce-nome { color: var(--ink-2); } }
+.voce-corpo { display: none; }
+
+/* La finestra del browser: una scena per lavoro, si scambiano con una tendina */
+.finestra {
+  grid-area: finestra; border-radius: 14px; overflow: hidden; background: var(--bg);
+  border: 1px solid var(--line);
+  box-shadow: 0 1px 2px rgba(16, 24, 40, 0.06), 0 34px 64px -34px rgba(16, 24, 40, 0.38);
+}
+.finestra-barra { position: relative; display: flex; align-items: center; height: 38px; padding: 0 14px; background: var(--bg-2); border-bottom: 1px solid var(--line); }
+.finestra-luci { display: flex; gap: 6px; }
+.finestra-luci i { width: 10px; height: 10px; border-radius: 50%; background: var(--line-2); }
+.finestra-url {
+  position: absolute; left: 50%; transform: translateX(-50%); max-width: calc(100% - 120px);
+  padding: 4px 14px; border-radius: 7px; background: var(--bg); color: var(--ink-3);
+  font: 400 12px/1.4 var(--mono); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.finestra-vetro { position: relative; aspect-ratio: 16 / 10; overflow: hidden; background: var(--bg-2); container-type: inline-size; }
+.scena { position: absolute; inset: 0; visibility: hidden; }
+.scena.is-on { visibility: visible; }
+.pagina { position: relative; width: 100%; will-change: transform; }
+.pagina img { width: 100%; height: auto; }
+
+/* Il cursore che preme davvero il pulsante della pagina */
+.cursore {
+  position: absolute; left: var(--x); top: var(--y); width: 22px; height: 22px; margin: -3px 0 0 -4px; opacity: 0;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M5 3l14 8-6.2 1.6L10 19z' fill='%23101828' stroke='%23fff' stroke-width='1.6' stroke-linejoin='round'/%3E%3C/svg%3E") center / contain no-repeat;
+  filter: drop-shadow(0 2px 3px rgba(16, 24, 40, 0.3));
+}
+
+/* Le notifiche di quello che parte da solo */
+.avvisi { position: absolute; left: 4cqw; bottom: 4cqw; display: grid; gap: 1.4cqw; justify-items: start; }
+.avvisi-alto { left: auto; right: 4cqw; bottom: auto; top: 4cqw; justify-items: end; }
+.avvisi li {
+  position: relative; padding: 1.5cqw 2.2cqw 1.5cqw 4.6cqw; border-radius: 1.6cqw; background: var(--bg); color: var(--ink);
+  font-size: clamp(10.5px, 2.05cqw, 14px); line-height: 1.35; white-space: nowrap;
+  box-shadow: 0 1px 2px rgba(16, 24, 40, 0.08), 0 14px 28px -14px rgba(16, 24, 40, 0.4);
+}
+.avvisi li::before { content: ""; position: absolute; left: 2.1cqw; top: 50%; width: 1.3cqw; height: 1.3cqw; margin-top: -0.65cqw; border-radius: 50%; background: var(--verde-ok); }
+.avvisi b { font-weight: 600; }
+
+/* Il terminale del montaggio video */
+.scena-terminale { background: #0e1420; }
+.terminale {
+  margin: 0; height: 100%; padding: 6cqw 6.5cqw; color: #c3cbd8;
+  font: 400 clamp(10.5px, 2.5cqw, 16px)/1.9 var(--mono); white-space: pre-wrap;
+}
+.t-riga { display: block; }
+.t-cmd { color: #fff; }
+.t-cmd b { color: #8ea8ff; font-weight: 500; }
+.t-ok { color: #3ccf8e; }
+
+/* La dashboard: appunto scritto, poi la risposta con la fonte */
+.app { height: 100%; padding: 5cqw 6cqw; display: flex; flex-direction: column; gap: 2.2cqw; font-size: clamp(10.5px, 2.3cqw, 15px); }
+.app-campo { padding: 2cqw 2.6cqw; border-radius: 1.8cqw; background: var(--bg); border: 1px solid var(--line-2); color: var(--ink); white-space: nowrap; overflow: hidden; }
+.app-scritto { display: inline-block; }
+.app-domanda { margin-top: 2cqw; }
+.app-scheda {
+  align-self: flex-start; min-width: 52%; padding: 2.2cqw 2.8cqw; border-radius: 1.8cqw; background: var(--bg);
+  box-shadow: 0 1px 2px rgba(16, 24, 40, 0.06), 0 16px 30px -18px rgba(16, 24, 40, 0.35);
+}
+.app-tipo { font: 500 0.78em/1.3 var(--mono); text-transform: uppercase; letter-spacing: 0.08em; color: var(--blu); }
+.app-cosa { margin-top: 0.3em; font-weight: 600; color: var(--ink); }
+.app-quando, .app-fonte { margin-top: 0.2em; color: var(--ink-3); font-size: 0.9em; }
+.app-risposta { border: 1px solid #c9d6fb; }
+
+/* Il dettaglio del lavoro scelto, sotto la finestra */
+.dettaglio { grid-area: dettaglio; padding-top: 26px; }
+.dettaglio .tags { margin-top: 0; }
+.voce-testo { margin-top: 14px; color: var(--ink-3); font-size: 16px; max-width: 62ch; }
+.voce-testo b { color: var(--ink); font-weight: 600; font-variant-numeric: tabular-nums; }
+.tags { display: flex; flex-wrap: wrap; gap: 8px; }
+.tags li { font: 500 11.5px/1 var(--mono); text-transform: uppercase; letter-spacing: 0.08em; color: var(--ink-2); padding: 7px 10px; border: 1px solid var(--line-2); border-radius: 999px; }
+@media (hover: hover) and (pointer: fine) { .indice .freccia:hover span { transform: translate(2px, -2px); } }
+
+/* Telefono e tablet stretto: la finestra resta in alto, la lista scorre sotto e sceglie la scena */
+@media (max-width: 899px) {
+  .indice { grid-template-columns: minmax(0, 1fr); grid-template-areas: "finestra" "voci"; grid-template-rows: auto; }
+  .finestra { position: sticky; top: 66px; z-index: 2; box-shadow: 0 1px 2px rgba(16, 24, 40, 0.06), 0 18px 30px -22px rgba(16, 24, 40, 0.45); }
+  .finestra-vetro { aspect-ratio: 16 / 10.5; }
+  .dettaglio { display: none; }
+  .voci { margin-top: 28px; }
+  .voce-testa { grid-template-columns: minmax(0, 1fr); gap: 4px; padding: 22px 0 0; cursor: default; }
+  .voce-meta { order: -1; font-size: 13px; }
+  .voce.is-on .voce-nome { transform: translateX(18px); }
+  .voce-testa::before { top: auto; bottom: 0.55em; margin-top: 0; }
+  .voce-corpo { display: block; padding: 14px 0 26px; }
+  .voce-corpo .tags li { font-size: 10.5px; padding: 6px 9px; }
+}
 
 /* ---------- 7. Come lavoro: il binario ---------- */
 .binario { padding: clamp(110px, 14vw, 200px) 0 clamp(90px, 11vw, 160px); }
