@@ -208,7 +208,24 @@ em { font-style: italic; }
 .mirino.is-film .passo-tel { display: none; }
 .mirino.is-film .mirino-tel { display: block; height: min(74vh, 720px); aspect-ratio: 665 / 1418; }
 .mirino-tel img { position: absolute; inset: 9px; width: calc(100% - 18px); height: calc(100% - 18px); object-fit: cover; object-position: top; }
-@media (prefers-reduced-motion: no-preference) {
+/* Sul telefono lo stesso film, in verticale: il telefono sopra, il passo sotto */
+@media (max-width: 899px) {
+  .mirino.is-film .mirino-cornice { inset: 72px 10px 12px; }
+  .mirino.is-film .ang { width: 18px; height: 18px; }
+  .mirino.is-film .mir-rec, .mirino.is-film .mir-bl { left: 26px; }
+  .mirino.is-film .mir-tc, .mirino.is-film .mir-br { right: 26px; }
+  .mirino.is-film .mir-rec, .mirino.is-film .mir-tc { top: 12px; }
+  .mirino.is-film .mir-bl, .mirino.is-film .mir-br { bottom: 12px; }
+  .mir-rec, .mir-tc, .mir-bl, .mir-br { font-size: 10.5px; }
+  .mirino.is-film .mirino-griglia {
+    inset: 104px 0 42px; padding: 0 calc(var(--gutter) + 12px);
+    grid-template-columns: minmax(0, 1fr); grid-template-rows: auto auto; gap: 22px; align-content: center;
+  }
+  .mirino.is-film .mirino-tel { order: -1; justify-self: center; height: min(44svh, 400px); padding: 6px; border-radius: 30px; }
+  .mirino.is-film .mirino-tel img { inset: 6px; width: calc(100% - 12px); height: calc(100% - 12px); border-radius: 24px; }
+  .mirino.is-film .passo { align-self: start; text-align: center; }
+  .mirino.is-film .passo-parola { margin-top: 6px; font-size: clamp(44px, 13vw, 64px); }
+  .mirino.is-film .passo-testo { margin: 10px auto 0; font-size: 15.5px; line-height: 1.5; }
 }
 
 .mirino-piede { margin-top: clamp(56px, 7vw, 96px); display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 18px 40px; }
@@ -321,24 +338,41 @@ em { font-style: italic; }
 .tags li { font: 500 11.5px/1 var(--mono); text-transform: uppercase; letter-spacing: 0.08em; color: var(--ink-2); padding: 7px 10px; border: 1px solid var(--line-2); border-radius: 999px; }
 @media (hover: hover) and (pointer: fine) { .indice .freccia:hover span { transform: translate(2px, -2px); } }
 
-/* Telefono e tablet stretto: la finestra resta in alto, la lista scorre sotto e sceglie la scena */
+/* Telefono e tablet stretto: la finestra sopra, i lavori in una fila di schede da scorrere col dito.
+   La scheda al centro sceglie la scena, così finestra e testo si vedono sempre insieme */
 @media (max-width: 899px) {
-  .indice { grid-template-columns: minmax(0, 1fr); grid-template-areas: "finestra" "voci"; grid-template-rows: auto; }
-  .finestra { position: sticky; top: 66px; z-index: 2; box-shadow: 0 1px 2px rgba(16, 24, 40, 0.06), 0 18px 30px -22px rgba(16, 24, 40, 0.45); }
+  .indice { grid-template-columns: minmax(0, 1fr); grid-template-areas: "finestra" "voci" "punti"; grid-template-rows: auto; }
+  .finestra { box-shadow: 0 1px 2px rgba(16, 24, 40, 0.06), 0 18px 30px -22px rgba(16, 24, 40, 0.45); }
   .finestra-vetro { aspect-ratio: 16 / 10.5; }
   .dettaglio { display: none; }
-  .voci { margin-top: 28px; }
-  .voce-testa { grid-template-columns: minmax(0, 1fr); gap: 4px; padding: 22px 0 0; cursor: default; }
+  .voci {
+    display: flex; gap: 12px; margin: 16px calc(-1 * var(--gutter)) 0; padding: 0 var(--gutter) 4px; border-top: 0;
+    overflow-x: auto; scroll-snap-type: x mandatory; scroll-padding: 0 var(--gutter); overscroll-behavior-x: contain;
+    scrollbar-width: none;
+  }
+  .voci::-webkit-scrollbar { display: none; }
+  .voce {
+    flex: 0 0 86%; display: flex; flex-direction: column; scroll-snap-align: start;
+    padding: 20px; border: 1px solid var(--line); border-radius: 16px; background: var(--bg);
+    transition: border-color 220ms ease;
+  }
+  .voce.is-on { border-color: var(--line-2); }
+  .voce-testa { grid-template-columns: minmax(0, 1fr); gap: 6px; padding: 0; cursor: default; user-select: none; -webkit-user-select: none; }
+  .voce-testa::before { display: none; }
   .voce-meta { order: -1; font-size: 13px; }
-  .voce.is-on .voce-nome { transform: translateX(18px); }
-  .voce-testa::before { top: auto; bottom: 0.55em; margin-top: 0; }
-  .voce-corpo { display: block; padding: 14px 0 26px; }
+  .voce-nome, .voce.is-on .voce-nome { color: var(--ink); transform: none; font-size: 26px; }
+  .voce-corpo { display: flex; flex-direction: column; flex: 1; padding-top: 14px; }
   .voce-corpo .tags li { font-size: 10.5px; padding: 6px 9px; }
+  .voce-corpo .freccia { margin-top: auto; padding-top: 16px; align-self: flex-start; }
+  .punti { grid-area: punti; display: flex; justify-content: center; gap: 6px; margin-top: 18px; }
+  .punti i { width: 6px; height: 6px; border-radius: 3px; background: var(--line-2); transition: width 300ms var(--ease-out), background-color 200ms ease; }
+  .punti i.is-on { width: 18px; background: var(--ink); }
 }
+@media (min-width: 900px) { .punti { display: none; } }
 
 /* ---------- 7. Come lavoro: il binario ---------- */
 .binario { padding: clamp(110px, 14vw, 200px) 0 clamp(90px, 11vw, 160px); }
-.tappe { list-style: none; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; margin-top: clamp(48px, 6vw, 80px); }
+.tappe { list-style: none; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; margin-top: clamp(48px, 6vw, 80px); }
 .tappa { display: flex; flex-direction: column; min-height: clamp(260px, 26vw, 340px); padding: clamp(24px, 2.6vw, 36px); border-radius: 22px; background: var(--bg-2); }
 .tappa-n { font-family: var(--serif); font-size: clamp(64px, 6.4vw, 104px); line-height: 0.9; color: var(--ink-3); }
 .tappa h3 { margin-top: auto; padding-top: 40px; font-size: 21px; font-weight: 600; letter-spacing: -0.02em; line-height: 1.2; }
@@ -351,6 +385,9 @@ em { font-style: italic; }
 .punto:nth-of-type(2) { left: 50%; }
 .punto:nth-of-type(3) { left: 83.333%; }
 @media (max-width: 860px) { .tappe { grid-template-columns: 1fr; } .tappa { min-height: 0; } .linea { display: none; } }
+/* Telefono col movimento acceso: le tappe stanno una sopra l'altra e salgono a coprire la precedente */
+.binario-palco.is-pila .tappe { grid-template-columns: minmax(0, 1fr); gap: 0; clip-path: inset(-60px -40px 0 -40px); }
+.binario-palco.is-pila .tappa { grid-area: 1 / 1; min-height: 250px; transform-origin: 50% 0; box-shadow: 0 -1px 0 var(--line), 0 -18px 30px -24px rgba(16, 24, 40, 0.35); }
 
 .cosa { margin-top: clamp(100px, 12vw, 170px); }
 .cosa-titolo { font: 500 12.5px/1.4 var(--mono); text-transform: uppercase; letter-spacing: 0.08em; color: var(--ink-3); padding-bottom: 18px; }
@@ -507,9 +544,7 @@ em { font-style: italic; }
   font-size: 15px;
 }
 .foot div { display: grid; gap: 4px; }
-.foot div:last-child { text-align: right; }
 .foot-k { font: 400 11.5px/1.4 var(--mono); color: var(--ink-3); text-transform: uppercase; letter-spacing: 0.06em; }
-#clock { font-variant-numeric: tabular-nums; }
 
 /* Gli strumenti che scorrono, prima del piede */
 .nastro { margin-top: clamp(96px, 12vw, 160px); padding: clamp(18px, 2.4vw, 28px) 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); overflow: hidden; user-select: none; }

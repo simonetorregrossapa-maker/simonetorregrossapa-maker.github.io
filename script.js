@@ -19,15 +19,6 @@
     if (giorni > 0) el.textContent = giorni + " giorni";
   });
 
-  /* ---------- Ora a Palermo, nel piede ---------- */
-  var orologio = document.getElementById("clock");
-  if (orologio) {
-    var fmt = new Intl.DateTimeFormat("it-IT", { hour: "2-digit", minute: "2-digit", timeZone: "Europe/Rome" });
-    var batti = function () { orologio.textContent = fmt.format(new Date()); };
-    batti();
-    setInterval(batti, 15000);
-  }
-
   /* ---------- Il nome che scorre: gira da solo, scorrendo cambia verso ---------- */
   /* Due strisce (il nome pieno dietro e il contorno davanti) che si muovono insieme */
   var tracce = document.querySelectorAll(".marquee-track");
@@ -248,8 +239,11 @@
       });
     }
   
-    /* ---------- 5. Il mirino: su computer il palco si ferma e Helm si racconta in quattro passi ---------- */
-    mm.add("(min-width: 900px)", function () {
+    /* La barra degli indirizzi del telefono che entra ed esce non deve far ricalcolare i palchi fermi */
+    ST.config({ ignoreMobileResize: true });
+
+    /* ---------- 5. Il mirino: il palco si ferma e Helm si racconta in quattro passi (anche sul telefono) ---------- */
+    mm.add("(prefers-reduced-motion: no-preference)", function () {
       var sez = document.querySelector(".mirino");
       if (!sez) return;
       sez.classList.add("is-film");
@@ -306,11 +300,25 @@
         scrollTrigger: { trigger: el, start: "top 88%", once: true }
       });
     });
-    /* Sul telefono i passi di Helm entrano uno alla volta */
-    mm.add("(max-width: 899px)", function () {
-      g.utils.toArray(".passo").forEach(function (p) {
-        g.from(p, { y: 40, autoAlpha: 0, duration: 0.9, ease: "power3.out", scrollTrigger: { trigger: p, start: "top 85%", once: true } });
+    /* ---------- 7 sul telefono: le tre tappe si impilano una sull'altra mentre scorri ---------- */
+    mm.add("(max-width: 860px)", function () {
+      var palco = document.querySelector(".binario-palco");
+      var tappe = g.utils.toArray(".tappa");
+      if (!palco || tappe.length < 2) return;
+      palco.classList.add("is-pila");
+      var tl = g.timeline({
+        scrollTrigger: { trigger: palco, start: "center center", end: "+=" + (tappe.length - 1) * 70 + "%", pin: true, scrub: 0.5 }
       });
+      g.set(tappe.slice(1), { yPercent: 115 });
+      for (var i = 1; i < tappe.length; i++) {
+        tl.to(tappe[i], { yPercent: 0, duration: 1, ease: "power2.inOut" }, i - 1);
+        /* Le tappe già lette arretrano un poco e restano a sbucare in cima */
+        for (var j = 0; j < i; j++) {
+          tl.to(tappe[j], { scale: 1 - (i - j) * 0.05, y: -(i - j) * 14, duration: 1, ease: "power2.inOut" }, i - 1);
+        }
+      }
+      tl.to({}, { duration: 0.3 });
+      return function () { palco.classList.remove("is-pila"); g.set(tappe, { clearProps: "transform" }); };
     });
   
     /* Le immagini cambiano le altezze: a pagina caricata si rimisurano i punti di ogni scena */
@@ -438,12 +446,18 @@
       }
     });
 
-    /* Telefono: la voce che passa a metà schermo sceglie la scena */
+    /* Telefono: la scheda che si ferma nella fila sceglie la scena, i puntini dicono dove sei */
+    var fila = box.querySelector(".voci"), punti = box.querySelector(".punti");
+    if (punti) voci.forEach(function () { punti.appendChild(document.createElement("i")); });
+    var segna = function () {
+      if (!punti) return;
+      voci.forEach(function (v, i) { punti.children[i].classList.toggle("is-on", v.classList.contains("is-on")); });
+    };
     if (vede) {
       var guarda = new IntersectionObserver(function (righe) {
         if (!stretto.matches) return;
-        righe.forEach(function (r) { if (r.isIntersecting) scegli(r.target.getAttribute("data-scena")); });
-      }, { rootMargin: "-58% 0px -40% 0px" });
+        righe.forEach(function (r) { if (r.isIntersecting) { scegli(r.target.getAttribute("data-scena")); segna(); } });
+      }, { root: fila, threshold: 0.6 });
       voci.forEach(function (v) { guarda.observe(v); });
 
       /* Il film gira solo quando la finestra si vede */
@@ -465,6 +479,7 @@
     var iniziale = (voci[0] && voci[0].getAttribute("data-scena")) || "casa";
     box.querySelectorAll(".scena.is-on").forEach(function (s) { s.classList.remove("is-on"); });
     scegli(iniziale, true);
+    segna();
   })();
 
   /* ---------- Modulo contatti: controllo dei campi e invio con Web3Forms ---------- */
