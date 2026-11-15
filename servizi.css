@@ -1,0 +1,293 @@
+/* Simone Torregrossa · pagine servizio (gestionale, WhatsApp, software a Palermo)
+   Si carica DOPO styles.css: ne usa i colori, i caratteri, la barra, il binario e la chiusura.
+   Qui solo i pezzi delle pagine servizio. Movimento in servizi.js (GSAP + ScrollTrigger + Lenis):
+   senza script o con movimento ridotto la pagina è ferma ma completa. */
+
+body { text-underline-offset: 0.18em; }
+.wrap-stretto { max-width: 1120px; margin: 0 auto; padding: 0 var(--gutter); }
+
+/* ---------- Apertura ---------- */
+.ap {
+  --sporge: clamp(90px, 13vw, 210px);
+  position: relative; background: var(--bg-2);
+  padding-top: clamp(112px, 13vw, 180px);
+}
+.briciole { list-style: none; padding: 0; margin: 0; display: flex; flex-wrap: wrap; gap: 0 0.7em; font: 500 12.5px/1.4 var(--mono); text-transform: uppercase; letter-spacing: 0.08em; color: var(--ink-3); }
+.briciole a { transition: color 160ms ease; }
+.briciole li + li::before { content: "/"; margin-right: 0.7em; color: var(--line-2); }
+@media (hover: hover) and (pointer: fine) { .briciole a:hover { color: var(--ink); } }
+.ap-h1 {
+  margin-top: clamp(20px, 2.4vw, 30px); max-width: 15ch;
+  font-family: var(--serif); font-weight: 400;
+  font-size: clamp(46px, 6.9vw, 96px); line-height: 0.98; letter-spacing: -0.02em;
+}
+.ap-h1 .w { display: inline-block; }
+.ap-giu {
+  display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 0.75fr); gap: clamp(28px, 5vw, 80px);
+  align-items: end; margin-top: clamp(28px, 3.4vw, 44px);
+}
+.ap-lede { max-width: 50ch; font-size: clamp(18px, 1.5vw, 20px); line-height: 1.55; color: var(--ink-2); }
+.ap-lede b { color: var(--ink); font-weight: 600; }
+.azioni { display: flex; flex-wrap: wrap; gap: 12px; }
+.ap-nota { margin-top: 14px; font-size: 14.5px; color: var(--ink-3); }
+@media (max-width: 860px) { .ap-giu { grid-template-columns: 1fr; align-items: start; } }
+
+.bott {
+  display: inline-flex; align-items: center; justify-content: center; gap: 10px; min-height: 54px; padding: 0 26px;
+  border-radius: 999px; background: var(--ink); color: #fff; font-weight: 500; white-space: nowrap;
+  transition: background-color 200ms ease, transform 160ms var(--ease-out);
+}
+.bott svg { flex: none; transition: transform 240ms var(--ease-out); }
+.bott:active { transform: scale(0.97); }
+.bott-chiaro { background: transparent; color: var(--ink); box-shadow: inset 0 0 0 1px var(--line-2); transition: background-color 200ms ease, color 200ms ease, box-shadow 200ms ease, transform 160ms var(--ease-out); }
+@media (hover: hover) and (pointer: fine) {
+  .bott:hover { background: var(--blu); }
+  .bott:hover svg { transform: translate(2px, -2px); }
+  .bott-chiaro:hover { background: var(--ink); color: #fff; box-shadow: inset 0 0 0 1px var(--ink); }
+}
+@media (max-width: 520px) { .azioni .bott { flex: 1 1 100%; } }
+
+/* La composizione: il sistema da computer, lo stesso dal telefono che la sovrappone.
+   Sporge sotto l'apertura e la sezione dopo le fa spazio. */
+.compo { position: relative; margin-top: clamp(52px, 7vw, 100px); margin-bottom: calc(-1 * var(--sporge)); perspective: 2000px; z-index: 2; }
+.compo-palco { position: relative; transform-origin: 50% 0; will-change: transform; }
+.compo-didascalia { position: absolute; left: 0; top: calc(100% + 14px); font: 400 12.5px/1.4 var(--mono); color: var(--ink-3); }
+.cornice {
+  position: relative; overflow: hidden; border-radius: 14px; background: var(--bg); border: 1px solid var(--line);
+  box-shadow: 0 1px 2px rgba(16, 24, 40, 0.06), 0 50px 100px -48px rgba(16, 24, 40, 0.5);
+}
+.cornice-barra { display: flex; align-items: center; gap: 7px; height: 36px; padding: 0 14px; border-bottom: 1px solid var(--line); background: #f8f9fb; }
+.cornice-barra i { width: 9px; height: 9px; border-radius: 50%; background: var(--line-2); }
+.cornice-url { margin: 0 auto; padding-right: 40px; font: 400 11.5px/1 var(--mono); color: var(--ink-3); }
+.cornice img { width: 100%; height: auto; }
+.compo .compo-tel { position: absolute; right: 5%; bottom: -9%; width: clamp(150px, 17vw, 236px); }
+.compo .compo-tel.tel { padding: 7px; border-radius: 34px; }
+.compo .compo-tel.tel img { border-radius: 28px; }
+@media (max-width: 760px) {
+  .compo .cornice { display: none; }
+  .compo .compo-tel { position: relative; right: auto; bottom: auto; width: min(72vw, 300px); margin: 0 auto; }
+  .compo-didascalia { left: 50%; transform: translateX(-50%); width: max-content; max-width: calc(100vw - 2 * var(--gutter)); text-align: center; }
+}
+.sez.dopo-ap { padding-top: calc(clamp(90px, 13vw, 210px) + clamp(100px, 11vw, 160px)); }
+
+/* ---------- Sezioni ---------- */
+.sez { padding: clamp(96px, 12vw, 168px) 0; }
+.sez-grigia { background: var(--bg-2); }
+.sez-titolo {
+  max-width: 17ch; font-family: var(--serif); font-weight: 400;
+  font-size: clamp(40px, 5.4vw, 78px); line-height: 1; letter-spacing: -0.02em;
+}
+.sez-intro { margin-top: 22px; max-width: 58ch; font-size: 18px; color: var(--ink-2); }
+.sez-testa { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 0.8fr); gap: clamp(24px, 5vw, 80px); align-items: end; }
+.sez-testa .sez-intro { margin-top: 0; }
+@media (max-width: 860px) { .sez-testa { grid-template-columns: 1fr; } }
+
+/* Le scene del problema: righe con la linea sottile, il titolo a sinistra e la scena a destra */
+.scene { margin-top: clamp(48px, 6vw, 84px); border-top: 1px solid var(--line-2); }
+.scena-r {
+  display: grid; grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr); gap: clamp(14px, 4vw, 64px);
+  padding: clamp(26px, 3vw, 40px) 0; border-bottom: 1px solid var(--line-2); align-items: baseline;
+}
+.scena-r h3 { font-family: var(--serif); font-weight: 400; font-size: clamp(26px, 2.7vw, 38px); line-height: 1.08; letter-spacing: -0.015em; }
+.scena-r p { max-width: 54ch; color: var(--ink-2); font-size: 17px; }
+.scena-r .ora { font: 500 13px/1 var(--mono); color: var(--blu); font-variant-numeric: tabular-nums; margin-right: 0.5em; }
+@media (max-width: 760px) { .scena-r { grid-template-columns: 1fr; } }
+
+/* Cosa costruisco: ogni riga dice dove gira già */
+.cose { margin-top: clamp(44px, 5vw, 72px); display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: clamp(28px, 5vw, 80px); }
+.cosa-r { display: grid; gap: 10px; align-content: start; padding: 28px 0 30px; border-top: 1px solid var(--line-2); }
+.cosa-r h3 { font-size: 20px; font-weight: 600; line-height: 1.25; letter-spacing: -0.02em; }
+.cosa-r p { color: var(--ink-2); font-size: 16.5px; max-width: 52ch; }
+.cosa-r h3 a { background: linear-gradient(currentColor, currentColor) 0 100% / 0 1px no-repeat; transition: background-size 300ms var(--ease-out); }
+@media (hover: hover) and (pointer: fine) { .cosa-r h3 a:hover { background-size: 100% 1px; } }
+.dove { display: inline-flex; align-items: center; gap: 8px; margin-top: 4px; font: 500 11.5px/1.3 var(--mono); text-transform: uppercase; letter-spacing: 0.07em; color: var(--ink-3); }
+.dove::before { content: ""; flex: none; width: 6px; height: 6px; border-radius: 50%; background: var(--blu); }
+.dove-demo::before { background: transparent; box-shadow: inset 0 0 0 1.5px var(--ink-3); }
+@media (max-width: 760px) { .cose { grid-template-columns: 1fr; } }
+
+/* Il lavoro che lo prova: testo a sinistra, schermata a destra */
+.prova { display: grid; grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr); gap: clamp(32px, 6vw, 96px); align-items: center; }
+.prova-chi { display: flex; flex-wrap: wrap; gap: 8px; }
+.prova-chi li { font: 500 11.5px/1 var(--mono); text-transform: uppercase; letter-spacing: 0.08em; color: var(--ink-2); padding: 7px 10px; border: 1px solid var(--line-2); border-radius: 999px; }
+.prova h2 { margin-top: 22px; }
+.prova-testo { margin-top: 20px; color: var(--ink-2); font-size: 17.5px; max-width: 48ch; }
+.prova-testo + .prova-testo { margin-top: 12px; }
+.prova-testo b { color: var(--ink); font-weight: 600; font-variant-numeric: tabular-nums; }
+.prova-vista { position: relative; }
+.prova-vista .tel { position: absolute; right: -4%; bottom: -12%; width: clamp(110px, 13vw, 180px); padding: 6px; border-radius: 28px; }
+.prova-vista .tel img { border-radius: 23px; }
+.prova-nota { margin-top: 12px; font: 400 12.5px/1.4 var(--mono); color: var(--ink-3); }
+@media (max-width: 900px) {
+  .prova { grid-template-columns: 1fr; }
+  .prova-vista .tel { right: 4%; }
+}
+
+/* I limiti, detti per primi */
+.limiti { margin-top: clamp(44px, 5vw, 72px); display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; counter-reset: lim; }
+.limite { counter-increment: lim; display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 4px 18px; padding: clamp(22px, 2.6vw, 32px); border-radius: 20px; background: var(--bg-2); }
+.sez-grigia .limite { background: var(--bg); }
+.limite::before { content: counter(lim); grid-row: span 2; font-family: var(--serif); font-size: 44px; line-height: 0.8; color: var(--ink-3); }
+.limite h3 { font-size: 18.5px; font-weight: 600; line-height: 1.3; letter-spacing: -0.015em; }
+.limite p { color: var(--ink-2); font-size: 16px; }
+@media (max-width: 760px) { .limiti { grid-template-columns: 1fr; } }
+
+/* Le tappe riusano il binario della home */
+.sez .tappe { margin-top: clamp(44px, 5vw, 72px); }
+.sez-grigia .tappa { background: var(--bg); }
+.sez-grigia .punto { box-shadow: 0 0 0 4px var(--bg-2); }
+
+/* ---------- Domande frequenti ---------- */
+.faq { margin-top: clamp(40px, 5vw, 64px); border-top: 1px solid var(--line-2); }
+.faq details { border-bottom: 1px solid var(--line-2); }
+.faq summary {
+  display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 20px; align-items: center;
+  padding: clamp(20px, 2.4vw, 28px) 0; cursor: pointer; list-style: none;
+  font-size: clamp(19px, 1.7vw, 22px); font-weight: 500; letter-spacing: -0.02em; line-height: 1.3;
+}
+.faq summary::-webkit-details-marker { display: none; }
+.faq-segno { position: relative; width: 36px; height: 36px; border-radius: 50%; box-shadow: inset 0 0 0 1px var(--line-2); transition: background-color 200ms ease, box-shadow 200ms ease; }
+.faq-segno::before, .faq-segno::after { content: ""; position: absolute; left: 50%; top: 50%; width: 12px; height: 1.5px; margin: -0.75px 0 0 -6px; background: currentColor; transition: transform 260ms var(--ease-out); }
+.faq-segno::after { transform: rotate(90deg); }
+.faq details[open] .faq-segno::after { transform: rotate(0deg); }
+.faq details[open] .faq-segno { background: var(--ink); color: #fff; box-shadow: inset 0 0 0 1px var(--ink); }
+@media (hover: hover) and (pointer: fine) { .faq summary:hover .faq-segno { box-shadow: inset 0 0 0 1px var(--ink); } }
+.faq-r { padding: 0 56px clamp(24px, 2.6vw, 32px) 0; max-width: 72ch; color: var(--ink-2); font-size: 17px; }
+.faq-r p + p { margin-top: 10px; }
+.faq-r a { color: var(--blu); text-decoration: underline; text-decoration-thickness: 1px; }
+/* Dove il browser lo sa fare, la risposta si apre morbida */
+@supports (interpolate-size: allow-keywords) {
+  .faq { interpolate-size: allow-keywords; }
+  .faq details::details-content { height: 0; overflow: clip; transition: height 320ms var(--ease-out), content-visibility 320ms allow-discrete; }
+  .faq details[open]::details-content { height: auto; }
+}
+@media (prefers-reduced-motion: reduce) { .faq details::details-content { transition: none; } }
+
+/* ---------- Gli altri servizi ---------- */
+.altri { margin-top: clamp(36px, 4vw, 56px); border-top: 1px solid var(--line-2); }
+.altro {
+  display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) auto; gap: clamp(14px, 3vw, 48px); align-items: center;
+  padding: clamp(22px, 2.6vw, 34px) 0; border-bottom: 1px solid var(--line-2);
+}
+.altro-nome { font-family: var(--serif); font-size: clamp(30px, 3.4vw, 50px); line-height: 1.02; letter-spacing: -0.02em; transition: transform 300ms var(--ease-out), color 200ms ease; }
+.altro-cosa { color: var(--ink-3); font-size: 16px; }
+.altro-freccia { display: grid; place-items: center; width: 52px; height: 52px; border-radius: 50%; box-shadow: inset 0 0 0 1px var(--line-2); transition: background-color 200ms ease, color 200ms ease, box-shadow 200ms ease; }
+.altro-freccia svg { transition: transform 240ms var(--ease-out); }
+@media (hover: hover) and (pointer: fine) {
+  .altro:hover .altro-nome { transform: translateX(10px); }
+  .altro:hover .altro-freccia { background: var(--blu); color: #fff; box-shadow: none; }
+  .altro:hover .altro-freccia svg { transform: translate(2px, -2px); }
+}
+@media (max-width: 760px) { .altro { grid-template-columns: minmax(0, 1fr) auto; } .altro-cosa { grid-column: 1; grid-row: 2; } .altro-freccia { grid-row: 1 / span 2; grid-column: 2; } }
+
+/* Chiusura: riusa .contact della home, senza il modulo */
+.contact .contact-pills { margin-top: 36px; }
+.foot { flex-wrap: wrap; }
+.foot a { transition: color 160ms ease; }
+@media (hover: hover) and (pointer: fine) { .foot a:hover { color: var(--blu); } }
+.foot-servizi { display: grid; gap: 4px; }
+
+/* ---------- Pezzo firma 1 (gestionale): i posti sparsi che diventano uno ---------- */
+.sparsi-lista { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 40px; }
+.foglietto {
+  display: inline-flex; align-items: center; gap: 10px; padding: 12px 16px; border-radius: 12px;
+  background: var(--bg); border: 1px solid var(--line); box-shadow: 0 1px 2px rgba(16, 24, 40, 0.05), 0 14px 26px -18px rgba(16, 24, 40, 0.35);
+  max-width: 100%; font-size: 15.5px; line-height: 1.3; color: var(--ink-2);
+}
+.foglietto b { font-weight: 600; color: var(--ink); }
+.foglietto svg { flex: none; color: var(--ink-3); }
+.sparsi-fine { margin-top: 40px; }
+.sparsi-fine .cornice { max-width: 980px; margin: 0 auto; }
+.sparsi-fine .sez-titolo { margin: 0 0 32px; }
+/* Col movimento: un palco fermo, i foglietti sparsi intorno che si raccolgono nella schermata */
+.sparsi.is-viva .sparsi-palco { position: relative; height: 100vh; height: 100svh; overflow: hidden; }
+.sparsi.is-viva .sparsi-testa { position: absolute; left: 0; right: 0; top: clamp(84px, 13vh, 130px); z-index: 3; text-align: center; }
+.sparsi.is-viva .sparsi-testa .sez-titolo, .sparsi.is-viva .sparsi-testa .sez-intro { margin-left: auto; margin-right: auto; }
+.sparsi.is-viva .sparsi-lista { position: absolute; inset: 0; margin: 0; display: block; z-index: 2; pointer-events: none; }
+.sparsi.is-viva .foglietto { position: absolute; left: var(--x); top: var(--y); white-space: nowrap; }
+.sparsi.is-viva .sparsi-fine { position: absolute; left: var(--gutter); right: var(--gutter); top: 50%; margin: 0; z-index: 1; transform: translateY(-36%); }
+.sparsi.is-viva .sparsi-fine .sez-titolo { text-align: center; margin-left: auto; margin-right: auto; }
+@media (max-width: 760px) {
+  .sparsi.is-viva .foglietto { left: var(--xm, var(--x)); top: var(--ym, var(--y)); font-size: 13.5px; padding: 9px 12px; white-space: normal; width: max-content; max-width: 56vw; }
+  .sparsi.is-viva .sparsi-fine { transform: translateY(-30%); }
+}
+
+/* ---------- Pezzo firma 2 (WhatsApp): la chat che si scrive mentre scorri ---------- */
+.dialogo { display: grid; grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr); gap: clamp(32px, 6vw, 96px); align-items: center; }
+.dialogo-palco { display: contents; }
+.intanto { display: grid; gap: 0; margin-top: 36px; border-top: 1px solid var(--line-2); }
+.intanto li { display: grid; grid-template-columns: 64px minmax(0, 1fr); gap: 14px; padding: 16px 0; border-bottom: 1px solid var(--line-2); color: var(--ink-2); font-size: 16.5px; transition: color 300ms ease; }
+.intanto time { font: 500 13px/1.6 var(--mono); color: var(--ink-3); font-variant-numeric: tabular-nums; transition: color 300ms ease; }
+.dialogo.is-viva .intanto li { color: var(--ink-3); }
+.dialogo.is-viva .intanto li.is-on { color: var(--ink); }
+.dialogo.is-viva .intanto li.is-on time { color: var(--blu); }
+.chat {
+  position: relative; max-width: 440px; justify-self: center; width: 100%;
+  border-radius: 28px; background: #f3f5f8; border: 1px solid var(--line);
+  box-shadow: 0 1px 2px rgba(16, 24, 40, 0.06), 0 50px 90px -46px rgba(16, 24, 40, 0.5);
+  overflow: hidden;
+}
+.chat-testa { display: flex; align-items: center; gap: 12px; padding: 16px 18px; background: var(--bg); border-bottom: 1px solid var(--line); }
+.chat-avatar { display: grid; place-items: center; width: 38px; height: 38px; border-radius: 50%; background: var(--blu); color: #fff; font: 600 13px/1 var(--sans); }
+.chat-nome { font-weight: 600; font-size: 15.5px; line-height: 1.2; }
+.chat-stato { font-size: 13px; color: var(--ink-3); }
+.chat-corpo { padding: 18px 16px 20px; }
+.chat-rullo { position: relative; display: flex; flex-direction: column; gap: 10px; }
+.giorno { align-self: center; padding: 5px 10px; border-radius: 999px; background: var(--bg); font: 500 11px/1 var(--mono); text-transform: uppercase; letter-spacing: 0.08em; color: var(--ink-3); }
+.msg { max-width: 84%; padding: 10px 13px 8px; border-radius: 16px; font-size: 15px; line-height: 1.45; box-shadow: 0 1px 1px rgba(16, 24, 40, 0.06); }
+.msg time { display: block; margin-top: 4px; text-align: right; font: 400 11px/1 var(--mono); opacity: 0.7; font-variant-numeric: tabular-nums; }
+.msg-lui { align-self: flex-start; background: var(--bg); color: var(--ink); border-bottom-left-radius: 5px; transform-origin: 0 100%; }
+.msg-helm { align-self: flex-end; background: var(--blu); color: #fff; border-bottom-right-radius: 5px; transform-origin: 100% 100%; }
+.msg-helm .chi { display: block; margin-bottom: 3px; font: 500 10.5px/1 var(--mono); text-transform: uppercase; letter-spacing: 0.08em; color: rgba(255, 255, 255, 0.72); }
+.msg-tasti { display: grid; gap: 1px; margin-top: 8px; border-radius: 10px; overflow: hidden; background: rgba(255, 255, 255, 0.28); }
+.msg-tasti span { padding: 9px 10px; text-align: center; background: rgba(255, 255, 255, 0.14); font-weight: 500; font-size: 14.5px; }
+.msg-fatto { align-self: center; display: inline-flex; align-items: center; gap: 8px; padding: 7px 12px; border-radius: 999px; background: var(--bg); border: 1px solid var(--line); font-size: 13px; color: var(--ink-2); }
+.msg-fatto svg { color: var(--blu); }
+.scrive { align-self: flex-end; display: none; gap: 4px; padding: 12px 14px; border-radius: 16px; border-bottom-right-radius: 5px; background: var(--blu); }
+.scrive i { width: 6px; height: 6px; border-radius: 50%; background: rgba(255, 255, 255, 0.8); }
+.chat-nota { margin-top: 14px; text-align: center; font: 400 12.5px/1.4 var(--mono); color: var(--ink-3); }
+.dialogo.is-viva .scrive { display: inline-flex; position: absolute; right: 0; }
+/* Sul computer la chat ha l'altezza di un telefono: i messaggi vecchi salgono e escono dall'alto */
+.dialogo.is-fissa .chat-corpo { height: min(540px, calc(100vh - 270px)); height: min(540px, calc(100svh - 270px)); overflow: hidden; }
+@media (prefers-reduced-motion: no-preference) { .scrive i { animation: punto 1s ease-in-out infinite; } .scrive i:nth-child(2) { animation-delay: 0.15s; } .scrive i:nth-child(3) { animation-delay: 0.3s; } }
+@keyframes punto { 0%, 60%, 100% { transform: translateY(0); opacity: 0.6; } 30% { transform: translateY(-3px); opacity: 1; } }
+/* Col movimento, su computer: il palco si ferma e la chat si scrive un messaggio alla volta */
+.dialogo.is-viva { min-height: 100vh; min-height: 100svh; align-content: center; padding: 80px 0 40px; }
+@media (max-width: 900px) {
+  .dialogo { grid-template-columns: 1fr; }
+  .dialogo.is-viva { min-height: 0; padding: 0; }
+}
+
+/* ---------- Pezzo firma 3 (Palermo): i sistemi, con la finestra che cambia schermata ---------- */
+.sistemi { display: grid; grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr); gap: clamp(32px, 6vw, 96px); margin-top: clamp(48px, 6vw, 84px); }
+.sistemi-voci { display: grid; gap: clamp(64px, 12vh, 140px); padding: 6vh 0 12vh; }
+.sistema h3 { margin-top: 16px; font-family: var(--serif); font-weight: 400; font-size: clamp(32px, 3.4vw, 50px); line-height: 1.02; letter-spacing: -0.02em; }
+.sistema p { margin-top: 14px; color: var(--ink-2); font-size: 17px; max-width: 46ch; }
+.sistema p b { color: var(--ink); font-weight: 600; font-variant-numeric: tabular-nums; }
+.sistema .cornice { margin-top: 26px; }
+.sistemi-vista { display: none; }
+@media (min-width: 901px) {
+  .sistemi-vista { display: block; position: sticky; top: calc(50vh - 18vw); align-self: start; }
+  .sistemi-vista .cornice-vetro { position: relative; aspect-ratio: 16 / 10; }
+  .sistemi-vista .cornice-vetro img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 0; opacity: 0; transform: scale(1.03); transition: opacity 500ms var(--ease-out), transform 700ms var(--ease-out); }
+  .sistemi-vista .cornice-vetro img.is-on { opacity: 1; transform: none; }
+  .sistema .cornice { display: none; }
+  .sistema { transition: opacity 400ms ease; }
+  .sistemi.is-viva .sistema { opacity: 0.32; }
+  .sistemi.is-viva .sistema.is-on { opacity: 1; }
+}
+@media (max-width: 900px) { .sistemi { grid-template-columns: 1fr; } .sistemi-voci { padding: 0; } }
+
+/* ---------- Movimento d'ingresso (CSS, così parte anche prima degli script) ---------- */
+@media (prefers-reduced-motion: no-preference) {
+  .js .ap-h1 .w { animation: parola 1000ms var(--ease-out) both; animation-delay: calc(120ms + var(--i, 0) * 60ms); }
+  .js .briciole { animation: fade 700ms ease 60ms both; }
+  .js .ap-giu { animation: fade-up 900ms var(--ease-out) 560ms both; }
+  .js .compo-in { animation: compo-su 1300ms var(--ease-out) 380ms both; }
+  /* La composizione parte inclinata e si raddrizza mentre scorri (servizi.js) */
+  .js .compo-palco { transform: rotateX(16deg) scale(0.94); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .js .ap-h1, .js .compo-in { animation: fade 400ms ease both; }
+}
+@keyframes parola { from { opacity: 0; transform: translateY(0.32em); filter: blur(10px); } to { opacity: 1; transform: none; filter: blur(0); } }
+@keyframes compo-su { from { opacity: 0; transform: translateY(70px); } to { opacity: 1; transform: none; } }

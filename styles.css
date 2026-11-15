@@ -544,6 +544,9 @@ em { font-style: italic; }
   font-size: 15px;
 }
 .foot div { display: grid; gap: 4px; }
+.foot { flex-wrap: wrap; }
+.foot a, .svc h4 a { transition: color 160ms ease; }
+@media (hover: hover) and (pointer: fine) { .foot a:hover, .svc h4 a:hover { color: var(--blu); } }
 .foot-k { font: 400 11.5px/1.4 var(--mono); color: var(--ink-3); text-transform: uppercase; letter-spacing: 0.06em; }
 
 /* Gli strumenti che scorrono, prima del piede */
