@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <title>Simone Torregrossa · Sviluppatore software e automazioni</title>
-  <meta name="description" content="Sviluppatore full stack e automazioni a Palermo, da remoto in tutta Italia. Applicazioni web, API, integrazioni e sistemi che lavorano da soli: un sistema di prenotazione in produzione per un cliente da luglio 2026, Helm online da settembre." />
+  <title>Software su misura e automazioni | Simone Torregrossa</title>
+  <meta name="description" content="Gestionali, prenotazioni online e automazioni WhatsApp su misura per aziende e attività in tutta Italia. Lavoro da remoto, a cifra fissa." />
   <meta name="author" content="Simone Torregrossa" />
   <meta name="robots" content="index, follow" />
   <meta name="theme-color" content="#EEF1F5" />
@@ -12,16 +12,16 @@
   <meta property="og:type" content="website" />
   <meta property="og:locale" content="it_IT" />
   <meta property="og:site_name" content="Simone Torregrossa" />
-  <meta property="og:title" content="Simone Torregrossa · Sviluppatore software e automazioni" />
-  <meta property="og:description" content="Software su misura e automazioni che lavorano da sole. Sviluppo full stack, con due sistemi in produzione." />
+  <meta property="og:title" content="Software su misura e automazioni | Simone Torregrossa" />
+  <meta property="og:description" content="Gestionali, prenotazioni online e automazioni WhatsApp su misura per aziende e attività, da remoto in tutta Italia." />
   <meta property="og:url" content="https://torregrossadev.com/" />
   <meta property="og:image" content="https://torregrossadev.com/assets/og-cover.png" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
   <meta property="og:image:alt" content="Simone Torregrossa, sviluppatore software e automazioni" />
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Simone Torregrossa · Sviluppatore software e automazioni" />
-  <meta name="twitter:description" content="Software su misura e automazioni che lavorano da sole. Sviluppo full stack, con due sistemi in produzione." />
+  <meta name="twitter:title" content="Software su misura e automazioni | Simone Torregrossa" />
+  <meta name="twitter:description" content="Gestionali, prenotazioni online e automazioni WhatsApp su misura per aziende e attività, da remoto in tutta Italia." />
   <meta name="twitter:image" content="https://torregrossadev.com/assets/og-cover.png" />
   <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -32,18 +32,52 @@
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
-    "@type": "Person",
-    "name": "Simone Torregrossa",
-    "jobTitle": "Sviluppatore software e automazioni",
-    "description": "Sviluppatore software e automazioni. Sistemi di prenotazione, assistenti WhatsApp, pannelli di gestione, backend e integrazioni, costruiti su misura. Palermo, da remoto in tutta Italia.",
-    "url": "https://torregrossadev.com/",
-    "email": "mailto:simone.torregrossa.pa@gmail.com",
-    "image": "https://torregrossadev.com/assets/og-cover.png",
-    "knowsAbout": ["Sviluppo full stack", "React", "Next.js", "TypeScript", "Node.js", "Python", "Supabase", "PostgreSQL", "Sistemi di prenotazione", "WhatsApp Business API", "Automazioni", "Integrazioni API", "Agenti AI"],
-    "address": { "@type": "PostalAddress", "addressLocality": "Palermo", "addressCountry": "IT" },
-    "areaServed": { "@type": "Country", "name": "Italia" },
-    "availableLanguage": ["it", "en"],
-    "sameAs": ["https://www.linkedin.com/in/simonetorregrossa1234", "https://github.com/simonetorregrossapa-maker"]
+    "@graph": [
+      {
+        "@type": "Person",
+        "@id": "https://torregrossadev.com/#simone",
+        "name": "Simone Torregrossa",
+        "jobTitle": "Sviluppatore software e automazioni",
+        "url": "https://torregrossadev.com/",
+        "email": "mailto:simone.torregrossa.pa@gmail.com",
+        "image": "https://torregrossadev.com/assets/ritratto-ritaglio.webp",
+        "knowsAbout": ["Sviluppo full stack", "Software su misura", "Gestionali", "Sistemi di prenotazione", "Automazioni", "WhatsApp Business API", "Integrazioni API", "Agenti AI", "React", "Next.js", "TypeScript", "Node.js", "Python", "Supabase", "PostgreSQL"],
+        "address": { "@type": "PostalAddress", "addressCountry": "IT" },
+        "sameAs": ["https://www.linkedin.com/in/simonetorregrossa1234", "https://github.com/simonetorregrossapa-maker"]
+      },
+      {
+        "@type": "ProfessionalService",
+        "@id": "https://torregrossadev.com/#servizio",
+        "name": "Simone Torregrossa, software su misura e automazioni",
+        "description": "Gestionali, sistemi di prenotazione online, automazioni WhatsApp ed email, backend e integrazioni costruiti su misura per aziende e attività in tutta Italia, da remoto. Cifra fissa concordata prima di partire.",
+        "url": "https://torregrossadev.com/",
+        "email": "simone.torregrossa.pa@gmail.com",
+        "image": "https://torregrossadev.com/assets/og-cover.png",
+        "founder": { "@id": "https://torregrossadev.com/#simone" },
+        "address": { "@type": "PostalAddress", "addressCountry": "IT" },
+        "areaServed": { "@type": "Country", "name": "Italia" },
+        "availableLanguage": ["it", "en"],
+        "hasOfferCatalog": {
+          "@type": "OfferCatalog",
+          "name": "Cosa costruisco",
+          "itemListElement": [
+            { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Applicazioni web e gestionali su misura", "description": "Aree riservate, dashboard e pannelli, con accessi separati per ogni utente o azienda." } },
+            { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Automazioni e WhatsApp", "description": "Messaggi, email e promemoria che partono da soli al momento giusto. Risposte ai clienti e vocali trascritti." } },
+            { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Sistemi di prenotazione online", "description": "Prenotazioni dirette dal sito con disponibilità letta dal calendario di Booking ed email automatiche all'ospite.", "url": "https://torregrossadev.com/case-vacanze/" } },
+            { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Backend, API e database", "description": "PostgreSQL con permessi riga per riga, API, funzioni server e lavori che girano a orario." } },
+            { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Integrazioni e intelligenza artificiale", "description": "Booking, Meta e servizi email collegati tra loro. Modelli AI che scrivono, classificano e trascrivono dentro il prodotto." } }
+          ]
+        }
+      },
+      {
+        "@type": "WebSite",
+        "@id": "https://torregrossadev.com/#sito",
+        "url": "https://torregrossadev.com/",
+        "name": "Simone Torregrossa",
+        "inLanguage": "it-IT",
+        "publisher": { "@id": "https://torregrossadev.com/#simone" }
+      }
+    ]
   }
   </script>
 </head>
@@ -63,7 +97,7 @@
   <main id="main">
     <!-- 1. Apertura: il nome enorme scorre DIETRO il ritratto ritagliato, ruolo e luogo agli angoli -->
     <section class="hero" id="top" aria-labelledby="hero-title">
-      <h1 class="sr" id="hero-title">Simone Torregrossa, sviluppatore software e automazioni</h1>
+      <h1 class="sr" id="hero-title">Simone Torregrossa, sviluppatore di software su misura e automazioni per aziende in tutta Italia</h1>
       <div class="hero-figure">
         <img class="hero-photo" src="assets/ritratto-ritaglio.webp" width="765" height="1024" alt="Simone Torregrossa" fetchpriority="high" />
       </div>
@@ -73,7 +107,7 @@
       </div>
       <div class="hero-side">
         <p class="hero-avail"><span class="avail" aria-hidden="true"></span>Disponibile per nuovi progetti</p>
-        <p class="hero-place">Palermo, da remoto in tutta Italia</p>
+        <p class="hero-place">Da remoto, in tutta Italia</p>
       </div>
       <div class="marquee" aria-hidden="true">
         <div class="marquee-track">
@@ -95,7 +129,7 @@
       <div class="marchio-palco">
         <div class="marchio-disco" aria-hidden="true"></div>
         <p class="marchio-st" aria-hidden="true">ST</p>
-        <p class="marchio-riga">Simone Torregrossa<span>Software su misura e automazioni · Palermo</span></p>
+        <p class="marchio-riga">Simone Torregrossa<span>Software su misura e automazioni · tutta Italia</span></p>
       </div>
     </section>
 
@@ -152,7 +186,7 @@
         <p class="etichetta">Chi sono</p>
         <p class="accende">Sono Simone, sviluppatore full stack. Costruisco software su misura e automazioni che lavorano da sole, dal database all'interfaccia. E resto anche dopo la consegna.</p>
         <div class="dichiara-giu">
-          <p>Lavoro con agenzie e studi, anche sotto il loro nome: il cliente resta vostro e la cifra è fissa, detta prima di partire.</p>
+          <p>Lavoro per aziende e attività che vogliono un gestionale, le prenotazioni online o i messaggi WhatsApp che partono da soli. E per agenzie e studi, anche sotto il loro nome: il cliente resta loro. La cifra è sempre fissa, detta prima di partire.</p>
           <p>Valuto anche un posto in squadra come sviluppatore full stack, da remoto o in sede a Palermo.</p>
         </div>
       </div>
@@ -463,6 +497,7 @@
 
       <footer class="foot wrap">
         <div><span class="foot-k">Edizione</span><span>2026 ©</span></div>
+        <div><span class="foot-k">Case vacanze e B&amp;B</span><a href="case-vacanze/">Prenotazioni dirette dal tuo sito</a></div>
       </footer>
     </section>
   </main>
