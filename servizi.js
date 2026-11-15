@@ -162,7 +162,7 @@
     tl2.call(accendi, [0], 0);
   }
 
-  /* ---------- Pezzo firma, Palermo: la finestra mostra il sistema che stai leggendo ---------- */
+  /* ---------- Pezzo firma, prenotazioni: la finestra mostra il sistema che stai leggendo ---------- */
   var sistemi = document.querySelector(".sistemi");
   if (sistemi && window.matchMedia("(min-width: 901px)").matches) {
     sistemi.classList.add("is-viva");
